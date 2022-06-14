@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BIM_YACHTING.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SymbIoTeSemantics</a> &gt; <a href="index.source.html" class="el_package">eu.h2020.symbiote.semantics.ontology</a> &gt; <span class="el_source">BIM_YACHTING.java</span></div><h1>BIM_YACHTING.java</h1><pre class="source lang-java linenums">package eu.h2020.symbiote.semantics.ontology;
+import org.apache.jena.rdf.model.*;
+import org.apache.jena.ontology.*;
+
+import org.apache.commons.lang3.StringUtils;
+
+<span class="nc" id="L7">public class BIM_YACHTING {</span>
+    /** &lt;p&gt;The ontology model that holds the vocabulary terms&lt;/p&gt; */
+<span class="fc" id="L9">    private static final OntModel M_MODEL = ModelFactory.createOntologyModel( OntModelSpec.OWL_MEM, null );</span>
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a string&lt;/p&gt; */
+    public static final String NS = &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#&quot;;
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a string&lt;/p&gt;
+     * @return namespace as String
+     * @see #NS */
+<span class="fc" id="L17">    public static String getURI() {return StringUtils.stripEnd(NS, &quot;#&quot;);}</span>
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a resource&lt;/p&gt; */
+<span class="fc" id="L20">    public static final Resource NAMESPACE = M_MODEL.createResource( NS );</span>
+    
+    /** &lt;p&gt;The ontology's owl:versionInfo as a string&lt;/p&gt; */
+    public static final String VERSION_INFO = &quot;v2.3.0 2018/07/23 12:00:00&quot;;
+    
+<span class="fc" id="L25">    public static String getVersionURI() { return getURI() + &quot;/2.3.0&quot;; }</span>
+<span class="fc" id="L26">    public static final ObjectProperty causedByFault = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#causedByFault&quot; );</span>
+    
+<span class="fc" id="L28">    public static final ObjectProperty hasComponent = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#hasComponent&quot; );</span>
+    
+<span class="fc" id="L30">    public static final ObjectProperty hasPoint = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#hasPoint&quot; );</span>
+    
+<span class="fc" id="L32">    public static final ObjectProperty hasPotentialSupplier = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#hasPotentialSupplier&quot; );</span>
+    
+<span class="fc" id="L34">    public static final ObjectProperty hasServiceType = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#hasServiceType&quot; );</span>
+    
+<span class="fc" id="L36">    public static final ObjectProperty hasSupportedService = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#hasSupportedService&quot; );</span>
+    
+<span class="fc" id="L38">    public static final ObjectProperty supportsServiceType = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#supportsServiceType&quot; );</span>
+    
+<span class="fc" id="L40">    public static final DatatypeProperty hint = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#hint&quot; );</span>
+    
+<span class="fc" id="L42">    public static final DatatypeProperty occurance = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#occurance&quot; );</span>
+    
+<span class="fc" id="L44">    public static final DatatypeProperty timestamp = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#timestamp&quot; );</span>
+    
+<span class="fc" id="L46">    public static final OntClass BlackWaterTank = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#BlackWaterTank&quot; );</span>
+    
+<span class="fc" id="L48">    public static final OntClass ConsumableNeed = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#ConsumableNeed&quot; );</span>
+    
+<span class="fc" id="L50">    public static final OntClass Exhaust = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#Exhaust&quot; );</span>
+    
+<span class="fc" id="L52">    public static final OntClass Fault = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#Fault&quot; );</span>
+    
+<span class="fc" id="L54">    public static final OntClass FreshWaterTank = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#FreshWaterTank&quot; );</span>
+    
+<span class="fc" id="L56">    public static final OntClass GreyWaterTank = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#GreyWaterTank&quot; );</span>
+    
+<span class="fc" id="L58">    public static final OntClass HarbourServiceType = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#HarbourServiceType&quot; );</span>
+    
+<span class="fc" id="L60">    public static final OntClass MaintenanceNeed = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#MaintenanceNeed&quot; );</span>
+    
+<span class="fc" id="L62">    public static final OntClass Port = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#Port&quot; );</span>
+    
+<span class="fc" id="L64">    public static final OntClass PortExhaust = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#PortExhaust&quot; );</span>
+    
+<span class="fc" id="L66">    public static final OntClass PotentialSupplierOrganization = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#PotentialSupplierOrganization&quot; );</span>
+    
+<span class="fc" id="L68">    public static final OntClass Route = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#Route&quot; );</span>
+    
+<span class="fc" id="L70">    public static final OntClass RoutePoint = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#RoutePoint&quot; );</span>
+    
+<span class="fc" id="L72">    public static final OntClass ServiceFuelOilTank = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#ServiceFuelOilTank&quot; );</span>
+    
+<span class="fc" id="L74">    public static final OntClass SmartYachtingService = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#SmartYachtingService&quot; );</span>
+    
+<span class="fc" id="L76">    public static final OntClass StarboardExhaust = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#StarboardExhaust&quot; );</span>
+    
+<span class="fc" id="L78">    public static final OntClass StorageFuelOilTank = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#StorageFuelOilTank&quot; );</span>
+    
+<span class="fc" id="L80">    public static final OntClass Tank = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#Tank&quot; );</span>
+    
+<span class="fc" id="L82">    public static final OntClass Waypoint = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#Waypoint&quot; );</span>
+    
+<span class="fc" id="L84">    public static final OntClass Yacht = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#Yacht&quot; );</span>
+    
+<span class="fc" id="L86">    public static final OntClass YachtComponent = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#YachtComponent&quot; );</span>
+    
+<span class="fc" id="L88">    public static final Individual AutoRepair = M_MODEL.createIndividual( &quot;http://schema.org/AutoRepair&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L90">    public static final Individual ComputerStore = M_MODEL.createIndividual( &quot;http://schema.org/ComputerStore&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L92">    public static final Individual DepartmentStore = M_MODEL.createIndividual( &quot;http://schema.org/DepartmentStore&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L94">    public static final Individual DryCleaningOrLaundry = M_MODEL.createIndividual( &quot;http://schema.org/DryCleaningOrLaundry&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L96">    public static final Individual Electrician = M_MODEL.createIndividual( &quot;http://schema.org/Electrician&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L98">    public static final Individual ElectronicsStore = M_MODEL.createIndividual( &quot;http://schema.org/ElectronicsStore&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L100">    public static final Individual GasStation = M_MODEL.createIndividual( &quot;http://schema.org/GasStation&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L102">    public static final Individual GroceryStore = M_MODEL.createIndividual( &quot;http://schema.org/GroceryStore&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L104">    public static final Individual HVACBusiness = M_MODEL.createIndividual( &quot;http://schema.org/HVACBusiness&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L106">    public static final Individual HardwareStore = M_MODEL.createIndividual( &quot;http://schema.org/HardwareStore&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L108">    public static final Individual Plumber = M_MODEL.createIndividual( &quot;http://schema.org/Plumber&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L110">    public static final Individual Winery = M_MODEL.createIndividual( &quot;http://schema.org/Winery&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L112">    public static final Individual HVACFault = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#HVACFault&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L114">    public static final Individual ascService = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#ascService&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L116">    public static final Individual automatedSupplyChain = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#automatedSupplyChain&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L118">    public static final Individual averageFuelConsumptionPerNauticalMile = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#averageFuelConsumptionPerNauticalMile&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L120">    public static final Individual electricFault = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#electricFault&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L122">    public static final Individual engineFault = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#engineFault&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L124">    public static final Individual exhaustTemperature = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#exhaustTemperature&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L126">    public static final Individual getConsumableNeedsService = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#getConsumableNeedsService&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L128">    public static final Individual getLatestRouteService = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#getLatestRouteService&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L130">    public static final Individual getLatestSensorDataService = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#getLatestSensorDataService&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L132">    public static final Individual getMaintenanceNeedsService = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#getMaintenanceNeedsService&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L134">    public static final Individual hydraulicFault = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#hydraulicFault&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L136">    public static final Individual smartMooring = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#smartMooring&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L138">    public static final Individual smartMooringService = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#smartMooringService&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L140">    public static final Individual tankLevel = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#tankLevel&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L142">    public static final Individual weelhouseFault = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartyachting#weelhouseFault&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

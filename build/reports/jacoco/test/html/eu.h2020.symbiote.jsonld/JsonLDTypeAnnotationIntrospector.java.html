@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JsonLDTypeAnnotationIntrospector.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SymbIoTeSemantics</a> &gt; <a href="index.source.html" class="el_package">eu.h2020.symbiote.jsonld</a> &gt; <span class="el_source">JsonLDTypeAnnotationIntrospector.java</span></div><h1>JsonLDTypeAnnotationIntrospector.java</h1><pre class="source lang-java linenums">package eu.h2020.symbiote.jsonld;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.PropertyMetadata;
+import com.fasterxml.jackson.databind.PropertyName;
+import com.fasterxml.jackson.databind.cfg.MapperConfig;
+import com.fasterxml.jackson.databind.introspect.AnnotatedClass;
+import com.fasterxml.jackson.databind.introspect.AnnotatedMember;
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import com.fasterxml.jackson.databind.introspect.VirtualAnnotatedMember;
+import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
+import com.fasterxml.jackson.databind.util.ClassUtil;
+import com.fasterxml.jackson.databind.util.SimpleBeanPropertyDefinition;
+import static eu.h2020.symbiote.jsonld.JsonLdProperties.CONTEXT;
+import static eu.h2020.symbiote.jsonld.JsonLdProperties.TYPE;
+import java.lang.annotation.Annotation;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.apache.jena.graph.NodeFactory;
+
+/**
+ * subclass of {@link JacksonAnnotationIntrospector} that uses
+ * {@link JsonLDType} annotation to produce JSON-LD upon serialization
+ *
+ * @author Michael Jacoby &lt;michael.jacoby@iosb.fraunhofer.de&gt;
+ */
+public class JsonLDTypeAnnotationIntrospector extends JacksonAnnotationIntrospector {
+
+    public static final boolean DEFAULT_INCLUDE_TYPES_FROM_SUPERCLASSES = true;
+    public static final boolean DEFAULT_ALWAY_USE_ARRAY_FOR_TYPE_PROPERTY = false;
+
+<span class="nc" id="L36">    private boolean includeTypesFromSuperclasses = DEFAULT_INCLUDE_TYPES_FROM_SUPERCLASSES;</span>
+<span class="nc" id="L37">    private boolean alwaysUseArrayForTypeProperty = DEFAULT_ALWAY_USE_ARRAY_FOR_TYPE_PROPERTY;</span>
+
+<span class="nc" id="L39">    public JsonLDTypeAnnotationIntrospector() {</span>
+<span class="nc" id="L40">    }</span>
+
+<span class="nc" id="L42">    public JsonLDTypeAnnotationIntrospector(boolean includeTypesFromSuperclasses, boolean alwaysUseArray) {</span>
+<span class="nc" id="L43">        this.includeTypesFromSuperclasses = includeTypesFromSuperclasses;</span>
+<span class="nc" id="L44">        this.alwaysUseArrayForTypeProperty = alwaysUseArray;</span>
+<span class="nc" id="L45">    }</span>
+
+    private Set&lt;String&gt; findJsonLDTypeAnnotation(JavaType type) {
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        Stream&lt;Annotation&gt; annotations = isIncludeTypesFromSuperclasses()</span>
+<span class="nc" id="L49">                ? ClassUtil.findSuperTypes(type, null, true).stream()</span>
+<span class="nc" id="L50">                        .flatMap(x -&gt; Stream.of(ClassUtil.findClassAnnotations(x.getRawClass())))</span>
+<span class="nc" id="L51">                : Stream.of(ClassUtil.findClassAnnotations(type.getRawClass()));</span>
+<span class="nc" id="L52">        return annotations</span>
+<span class="nc" id="L53">                .filter(x -&gt; Objects.equals(x.annotationType(), JsonLDType.class))</span>
+<span class="nc" id="L54">                .flatMap(x -&gt; Stream.of(((JsonLDType) x).value()))</span>
+<span class="nc" id="L55">                .collect(Collectors.toSet());</span>
+    }
+
+    @Override
+    public void findAndAddVirtualProperties(MapperConfig&lt;?&gt; config, AnnotatedClass ac, List&lt;BeanPropertyWriter&gt; properties) {
+<span class="nc" id="L60">        Set&lt;String&gt; types = findJsonLDTypeAnnotation(ac.getType());</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (!types.isEmpty()) {</span>
+<span class="nc" id="L62">            PropertyName typePropertyName = _propertyName(TYPE, &quot;&quot;);</span>
+<span class="nc bnc" id="L63" title="All 4 branches missed.">            JavaType typeJavaType = (types.size() == 1 &amp;&amp; !isAlwaysUseArrayForTypeProperty())</span>
+<span class="nc" id="L64">                    ? config.constructType(String.class)</span>
+<span class="nc" id="L65">                    : config.constructType(String[].class);</span>
+<span class="nc bnc" id="L66" title="All 4 branches missed.">            Object typeValue = (types.size() == 1 &amp;&amp; !isAlwaysUseArrayForTypeProperty())</span>
+<span class="nc" id="L67">                    ? types.iterator().next()</span>
+<span class="nc" id="L68">                    : types.toArray(new String[types.size()]);</span>
+
+<span class="nc" id="L70">            AnnotatedMember typeMember = new VirtualAnnotatedMember(ac, ac.getRawType(), TYPE, typeJavaType);</span>
+
+<span class="nc" id="L72">            SimpleBeanPropertyDefinition typePropDef = SimpleBeanPropertyDefinition.construct(config,</span>
+                    typeMember, typePropertyName, PropertyMetadata.STD_OPTIONAL, Include.USE_DEFAULTS);
+<span class="nc" id="L74">            ValuePropertyWriter typeWriter = ValuePropertyWriter.construct(typeValue, typePropDef,</span>
+<span class="nc" id="L75">                    ac.getAnnotations(), typeJavaType);</span>
+<span class="nc" id="L76">            properties.add(typeWriter);</span>
+        }
+
+        // context?
+<span class="nc" id="L80">        JsonLDVocab vocabAnnotation = ac.getAnnotation(JsonLDVocab.class);</span>
+<span class="nc" id="L81">        String vocab = null;</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (vocabAnnotation != null) {</span>
+<span class="nc bnc" id="L83" title="All 4 branches missed.">            if (vocabAnnotation.value() != null &amp;&amp; !vocabAnnotation.value().isEmpty()) {</span>
+<span class="nc" id="L84">                vocab = vocabAnnotation.value();</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            } else if (!types.isEmpty()) {</span>
+<span class="nc" id="L86">                vocab = NodeFactory.createURI(types.iterator().next()).getNameSpace();</span>
+            }
+        }
+<span class="nc" id="L89">        Context context = null;</span>
+<span class="nc bnc" id="L90" title="All 4 branches missed.">        if (vocab != null &amp;&amp; !vocab.isEmpty()) {</span>
+<span class="nc" id="L91">            context = new Context(vocab);</span>
+        }
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        for (BeanPropertyWriter property : properties) {</span>
+<span class="nc" id="L94">            JsonLDId propertyId = property.findAnnotation(JsonLDId.class);</span>
+<span class="nc bnc" id="L95" title="All 6 branches missed.">            if (propertyId != null &amp;&amp; propertyId.value() != null &amp;&amp; !propertyId.value().isEmpty()) {</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">                if (context == null) {</span>
+<span class="nc" id="L97">                    context = new Context();</span>
+                }
+<span class="nc" id="L99">                context.getProperties().put(property.getName(), propertyId.value());</span>
+            }
+<span class="nc" id="L101">        }</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if (context != null) {</span>
+<span class="nc" id="L103">            PropertyName contextPropertyName = _propertyName(CONTEXT, &quot;&quot;);</span>
+<span class="nc" id="L104">            JavaType contextType = config.constructType(Context.class);</span>
+<span class="nc" id="L105">            AnnotatedMember contextMember = new VirtualAnnotatedMember(ac, ac.getRawType(), CONTEXT, contextType);</span>
+<span class="nc" id="L106">            SimpleBeanPropertyDefinition contextPropDef = SimpleBeanPropertyDefinition.construct(config,</span>
+                    contextMember, contextPropertyName, PropertyMetadata.STD_OPTIONAL, Include.USE_DEFAULTS);
+<span class="nc" id="L108">            ValuePropertyWriter contextWriter = ValuePropertyWriter.construct(context, contextPropDef,</span>
+<span class="nc" id="L109">                    ac.getAnnotations(), contextType);</span>
+<span class="nc" id="L110">            properties.add(contextWriter);</span>
+        }
+<span class="nc" id="L112">    }</span>
+
+    public boolean isIncludeTypesFromSuperclasses() {
+<span class="nc" id="L115">        return includeTypesFromSuperclasses;</span>
+    }
+
+    public void setIncludeTypesFromSuperclasses(boolean includeTypesFromSuperclasses) {
+<span class="nc" id="L119">        this.includeTypesFromSuperclasses = includeTypesFromSuperclasses;</span>
+<span class="nc" id="L120">    }</span>
+
+    public boolean isAlwaysUseArrayForTypeProperty() {
+<span class="nc" id="L123">        return alwaysUseArrayForTypeProperty;</span>
+    }
+
+    public void setAlwaysUseArrayForTypeProperty(boolean alwaysUseArrayForTypeProperty) {
+<span class="nc" id="L127">        this.alwaysUseArrayForTypeProperty = alwaysUseArrayForTypeProperty;</span>
+<span class="nc" id="L128">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

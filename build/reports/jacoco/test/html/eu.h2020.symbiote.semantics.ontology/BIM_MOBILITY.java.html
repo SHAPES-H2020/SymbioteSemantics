@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BIM_MOBILITY.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SymbIoTeSemantics</a> &gt; <a href="index.source.html" class="el_package">eu.h2020.symbiote.semantics.ontology</a> &gt; <span class="el_source">BIM_MOBILITY.java</span></div><h1>BIM_MOBILITY.java</h1><pre class="source lang-java linenums">package eu.h2020.symbiote.semantics.ontology;
+import org.apache.jena.rdf.model.*;
+import org.apache.jena.ontology.*;
+
+import org.apache.commons.lang3.StringUtils;
+
+<span class="nc" id="L7">public class BIM_MOBILITY {</span>
+    /** &lt;p&gt;The ontology model that holds the vocabulary terms&lt;/p&gt; */
+<span class="fc" id="L9">    private static final OntModel M_MODEL = ModelFactory.createOntologyModel( OntModelSpec.OWL_MEM, null );</span>
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a string&lt;/p&gt; */
+    public static final String NS = &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#&quot;;
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a string&lt;/p&gt;
+     * @return namespace as String
+     * @see #NS */
+<span class="fc" id="L17">    public static String getURI() {return StringUtils.stripEnd(NS, &quot;#&quot;);}</span>
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a resource&lt;/p&gt; */
+<span class="fc" id="L20">    public static final Resource NAMESPACE = M_MODEL.createResource( NS );</span>
+    
+    /** &lt;p&gt;The ontology's owl:versionInfo as a string&lt;/p&gt; */
+    public static final String VERSION_INFO = &quot;v2.3.0 2018/07/23 12:00:00&quot;;
+    
+<span class="fc" id="L25">    public static String getVersionURI() { return getURI() + &quot;/2.3.0&quot;; }</span>
+<span class="fc" id="L26">    public static final ObjectProperty hasObservationType = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#hasObservationType&quot; );</span>
+    
+<span class="fc" id="L28">    public static final ObjectProperty hasPoIType = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#hasPoIType&quot; );</span>
+    
+<span class="fc" id="L30">    public static final DatatypeProperty hint = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#hint&quot; );</span>
+    
+<span class="fc" id="L32">    public static final OntClass Level = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#Level&quot; );</span>
+    
+<span class="fc" id="L34">    public static final OntClass MovementType = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#MovementType&quot; );</span>
+    
+<span class="fc" id="L36">    public static final OntClass ObservationType = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#ObservationType&quot; );</span>
+    
+<span class="fc" id="L38">    public static final OntClass PointOfInterest = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#PointOfInterest&quot; );</span>
+    
+<span class="fc" id="L40">    public static final OntClass PointOfInterestType = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#PointOfInterestType&quot; );</span>
+    
+<span class="fc" id="L42">    public static final OntClass Waypoint = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#Waypoint&quot; );</span>
+    
+<span class="fc" id="L44">    public static final Individual artsCenter = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#artsCenter&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L46">    public static final Individual bar = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#bar&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L48">    public static final Individual bicycle = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#bicycle&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L50">    public static final Individual cafe = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#cafe&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L52">    public static final Individual car = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#car&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L54">    public static final Individual casino = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#casino&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L56">    public static final Individual cinema = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#cinema&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L58">    public static final Individual dailyAverage = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#dailyAverage&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L60">    public static final Individual fastFoodRestaurant = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#fastFoodRestaurant&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L62">    public static final Individual foodCourt = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#foodCourt&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L64">    public static final Individual forthnightlyAverage = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#forthnightlyAverage&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L66">    public static final Individual high = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#high&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L68">    public static final Individual hourlyAverage = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#hourlyAverage&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L70">    public static final Individual jogging = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#jogging&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L72">    public static final Individual library = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#library&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L74">    public static final Individual low = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#low&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L76">    public static final Individual marketplace = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#marketplace&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L78">    public static final Individual medium = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#medium&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L80">    public static final Individual monthlyAverage = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#monthlyAverage&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L82">    public static final Individual nightclub = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#nightclub&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L84">    public static final Individual none = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#none&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L86">    public static final Individual placeOfWorship = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#placeOfWorship&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L88">    public static final Individual pub = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#pub&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L90">    public static final Individual quarterlyAverage = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#quarterlyAverage&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L92">    public static final Individual restaurant = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#restaurant&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L94">    public static final Individual truck = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#truck&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L96">    public static final Individual variableAverage = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#variableAverage&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L98">    public static final Individual weeklyAverage = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#weeklyAverage&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L100">    public static final Individual yearlyAverage = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartmobility#yearlyAverage&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="eu.h2020.symbiote.semantics.ModelHelperTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2022-05-19T12:26:34" hostname="dt140340007960a" time="2.601">
+  <properties/>
+  <testcase name="testLoadSymbIoTeOntologies" classname="eu.h2020.symbiote.semantics.ModelHelperTest" time="2.128"/>
+  <testcase name="testFindResourceByName" classname="eu.h2020.symbiote.semantics.ModelHelperTest" time="0.309"/>
+  <testcase name="testModelWithInference" classname="eu.h2020.symbiote.semantics.ModelHelperTest" time="0.121"/>
+  <testcase name="testFindResourceByNameAndType" classname="eu.h2020.symbiote.semantics.ModelHelperTest" time="0.008"/>
+  <testcase name="testExecuteSelectAsList" classname="eu.h2020.symbiote.semantics.ModelHelperTest" time="0.018"/>
+  <testcase name="testGetOntologyDefinitions" classname="eu.h2020.symbiote.semantics.ModelHelperTest" time="0.007"/>
+  <testcase name="testLoadImports" classname="eu.h2020.symbiote.semantics.ModelHelperTest" time="0.005"/>
+  <testcase name="testLoadPrefixes" classname="eu.h2020.symbiote.semantics.ModelHelperTest" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[log4j:WARN No appenders could be found for logger (Jena).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+]]></system-err>
+</testsuite>

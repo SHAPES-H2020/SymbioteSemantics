@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GraphHelper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SymbIoTeSemantics</a> &gt; <a href="index.source.html" class="el_package">eu.h2020.symbiote.semantics</a> &gt; <span class="el_source">GraphHelper.java</span></div><h1>GraphHelper.java</h1><pre class="source lang-java linenums">package eu.h2020.symbiote.semantics;
+
+import java.io.IOException;
+
+import eu.h2020.symbiote.core.internal.RDFFormat;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.query.ReadWrite;
+import org.apache.jena.rdf.model.Model;
+
+/**
+ * Helper class for RDF graph manipulation
+ *
+ * @author Michael Jacoby &lt;michael.jacoby@iosb.fraunhofer.de&gt;
+ */
+public class GraphHelper {
+
+<span class="nc" id="L20">    private static final Log log = LogFactory.getLog(GraphHelper.class);</span>
+
+    /**
+     * Insert triples serialized as String under given graph in dataset
+     *
+     * @param dataset dataset where &lt;code&gt;rdf&lt;/code&gt; will be inserted
+     * @param graphURI URI of the graph under which &lt;code&gt;rdf&lt;/code&gt; will be
+     * inserted
+     * @param rdf triples to insert
+     * @param format serialization format of &lt;code&gt;rdf&lt;/code&gt;
+     */
+    public static void insertGraph(Dataset dataset, String graphURI, String rdf, RDFFormat format) {
+        try {
+<span class="nc" id="L33">            OntModel model = ModelHelper.readModel(rdf, format, false, false);</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">            if (ModelHelper.getOntologyDefinitions(model).size() == 1) {</span>
+<span class="nc" id="L35">                ModelHelper.loadImports(model);</span>
+            }
+<span class="nc" id="L37">            insertGraph(dataset, graphURI, model);</span>
+<span class="nc" id="L38">        } catch (IOException ex) {</span>
+<span class="nc" id="L39">            log.error(&quot;error creating model from RDF&quot;, ex);</span>
+<span class="nc" id="L40">        }</span>
+<span class="nc" id="L41">    }</span>
+
+    /**
+     * Insert triples stored inside Model under given graph in dataset
+     *
+     * @param dataset dataset where &lt;code&gt;rdf&lt;/code&gt; will be inserted
+     * @param graphURI URI of the graph under which &lt;code&gt;rdf&lt;/code&gt; will be
+     * inserted
+     * @param model triples to insert
+     */
+    public static void insertGraph(Dataset dataset, String graphURI, Model model) {
+<span class="nc" id="L52">        dataset.begin(ReadWrite.WRITE);</span>
+<span class="nc" id="L53">        dataset.getNamedModel(graphURI).add(model);</span>
+<span class="nc" id="L54">        dataset.commit();</span>
+<span class="nc" id="L55">        dataset.end();</span>
+<span class="nc" id="L56">    }</span>
+
+    /**
+     * Remove graph from dataset
+     *
+     * @param dataset dataset containing graph
+     * @param graphURI URI of graph to remove
+     */
+    public static void removeGraph(Dataset dataset, String graphURI) {
+<span class="nc" id="L65">        dataset.begin(ReadWrite.WRITE);</span>
+<span class="nc" id="L66">        dataset.removeNamedModel(graphURI);</span>
+<span class="nc" id="L67">        dataset.commit();</span>
+<span class="nc" id="L68">        dataset.end();</span>
+<span class="nc" id="L69">    }</span>
+
+<span class="nc" id="L71">    private GraphHelper() {</span>
+
+<span class="nc" id="L73">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

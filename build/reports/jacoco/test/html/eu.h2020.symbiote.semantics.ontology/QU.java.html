@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>QU.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SymbIoTeSemantics</a> &gt; <a href="index.source.html" class="el_package">eu.h2020.symbiote.semantics.ontology</a> &gt; <span class="el_source">QU.java</span></div><h1>QU.java</h1><pre class="source lang-java linenums">package eu.h2020.symbiote.semantics.ontology;
+import org.apache.jena.rdf.model.*;
+import org.apache.jena.ontology.*;
+
+import org.apache.commons.lang3.StringUtils;
+
+<span class="nc" id="L7">public class QU {</span>
+    /** &lt;p&gt;The ontology model that holds the vocabulary terms&lt;/p&gt; */
+<span class="nc" id="L9">    private static final OntModel M_MODEL = ModelFactory.createOntologyModel( OntModelSpec.OWL_MEM, null );</span>
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a string&lt;/p&gt; */
+    public static final String NS = &quot;http://purl.oclc.org/NET/ssnx/qu/qu-rec20#&quot;;
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a string&lt;/p&gt;
+     * @return namespace as String
+     * @see #NS */
+<span class="nc" id="L17">    public static String getURI() {return StringUtils.stripEnd(NS, &quot;#&quot;);}</span>
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a resource&lt;/p&gt; */
+<span class="nc" id="L20">    public static final Resource NAMESPACE = M_MODEL.createResource( NS );</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

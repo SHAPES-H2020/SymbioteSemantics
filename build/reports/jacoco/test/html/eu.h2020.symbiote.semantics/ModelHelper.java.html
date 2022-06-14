@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ModelHelper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SymbIoTeSemantics</a> &gt; <a href="index.source.html" class="el_package">eu.h2020.symbiote.semantics</a> &gt; <span class="el_source">ModelHelper.java</span></div><h1>ModelHelper.java</h1><pre class="source lang-java linenums">package eu.h2020.symbiote.semantics;
+
+import eu.h2020.symbiote.core.internal.RDFFormat;
+import eu.h2020.symbiote.core.internal.RDFInfo;
+import eu.h2020.symbiote.semantics.ontology.INTERNAL;
+import eu.h2020.symbiote.semantics.util.JarLocator;
+import eu.h2020.symbiote.semantics.util.StreamHelper;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.jena.ontology.OntDocumentManager;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.ontology.OntModelSpec;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.query.ParameterizedSparqlString;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.ResIterator;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.shared.PrefixMapping;
+import org.apache.jena.util.FileManager;
+import org.apache.jena.vocabulary.OWL;
+import org.apache.jena.vocabulary.RDF;
+
+/**
+ * Helper class for Apache Jena model manipulation
+ *
+ * @author Michael Jacoby &lt;michael.jacoby@iosb.fraunhofer.de&gt;
+ */
+public class ModelHelper {
+
+    public static PrefixMapping PREFIXES;
+    private static final String ONT_DOC_MANAGER_CONFIG = &quot;localOntologiesMapping.ttl&quot;;
+<span class="fc" id="L52">    private static final Log log = LogFactory.getLog(ModelHelper.class);</span>
+
+    protected static OntDocumentManager DOC_MANAGER;
+<span class="fc" id="L55">    protected static final OntModelSpec MODEL_SPEC_OWL = OntModelSpec.OWL_DL_MEM;</span>
+<span class="fc" id="L56">    protected static final OntModelSpec MODEL_SPEC_OWL_INF = OntModelSpec.OWL_DL_MEM_RDFS_INF;</span>
+
+    static {
+        try {
+<span class="fc" id="L60">            FileManager fileManager = FileManager.makeGlobal();</span>
+<span class="fc" id="L61">            fileManager.addLocator(new JarLocator());</span>
+<span class="fc" id="L62">            FileManager.setGlobalFileManager(fileManager);</span>
+<span class="fc" id="L63">            init();</span>
+<span class="nc" id="L64">        } catch (Exception ex) {</span>
+<span class="nc" id="L65">            log.error(&quot;error initializing &quot; + ModelHelper.class.getName(), ex);</span>
+<span class="fc" id="L66">        }</span>
+<span class="fc" id="L67">    }</span>
+
+    /**
+     * Converts RDF model to OWL model, optionally with inference and included
+     * imports
+     *
+     * @param model input model
+     * @param includeImport true if owl:import should be loaded recursively,
+     * otherwise false
+     * @param withInference true if OWL inference should be enable in new model,
+     * otherwise false
+     * @return OWL model, optionally with imports included and OWL inference
+     * @throws IOException
+     */
+    public static OntModel asOntModel(Model model, boolean includeImport, boolean withInference) throws IOException {
+<span class="fc" id="L82">        OntModel result = createModel(withInference);</span>
+<span class="fc" id="L83">        result.getDocumentManager().setProcessImports(false);</span>
+<span class="fc" id="L84">        result.add(model);</span>
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">        if (includeImport) {</span>
+<span class="nc" id="L86">            loadImports(result);</span>
+        }
+<span class="fc" id="L88">        return result;</span>
+    }
+
+    /**
+     * Creates a new OWL model
+     *
+     * @param withInference true if use OWL inference, else false
+     * @return empty OWL model, optionally with inference support enabled
+     */
+    public static OntModel createModel(boolean withInference) {
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">        OntModel result = ModelFactory.createOntologyModel(</span>
+                withInference
+                        ? MODEL_SPEC_OWL_INF
+                        : MODEL_SPEC_OWL,
+<span class="fc" id="L102">                ModelFactory.createDefaultModel());</span>
+<span class="fc" id="L103">        return result;</span>
+    }
+
+    /**
+     * Create SPARQL Query against Jena &lt;code&gt;model&lt;/code&gt;
+     *
+     * @param model model to execute &lt;code&gt;query&lt;/code&gt; against
+     * @param query SPARQL query to execute
+     * @return &lt;code&gt;QueryExecution&lt;/code&gt; object
+     */
+    public static QueryExecution createQuery(String query, Model model) {
+<span class="fc" id="L114">        return QueryExecutionFactory.create(</span>
+<span class="fc" id="L115">                new ParameterizedSparqlString(query, PREFIXES).asQuery(),</span>
+                model);
+    }
+
+    /**
+     * Executes SPARQL &lt;code&gt;query&lt;/code&gt; as select against &lt;code&gt;model&lt;/code&gt;
+     *
+     * @param model model to execute &lt;code&gt;query&lt;/code&gt; against
+     * @param query SPARQL select query to execute
+     * @return list of values as string of first selected variable in
+     * &lt;code&gt;query&lt;/code&gt;
+     */
+    public static List&lt;String&gt; executeSelectAsList(OntModel model, String query) {
+<span class="fc" id="L128">        return executeSelectAsList(model, query, x -&gt; x.get(x.varNames().next()).toString());</span>
+    }
+
+    /**
+     * Executes SPARQL SELECT query and converts result to generic
+     * &lt;code&gt;List&lt;T&gt;&lt;/code&gt;
+     *
+     * @param &lt;T&gt; return type for list
+     * @param model model to execute &lt;code&gt;query&lt;/code&gt; against
+     * @param query SPARQL SELECT query
+     * @param mapFunction mapping function from &lt;code&gt;QuerySolution&lt;/code&gt; to
+     * &lt;code&gt;T&lt;/code&gt; for transformation of single result
+     * @return result of SPARQL SELECT query as list
+     */
+    public static &lt;T&gt; List&lt;T&gt; executeSelectAsList(Model model, String query, Function&lt;? super QuerySolution, ? extends T&gt; mapFunction) {
+<span class="fc" id="L143">        return resultSetAsList(executeSparql(model, query), mapFunction);</span>
+    }
+
+    /**
+     * Executes SPARQL SELECT query and returns first result element as
+     * &lt;code&gt;Literal&lt;/code&gt;
+     *
+     * @param model model to execute &lt;code&gt;query&lt;/code&gt; against
+     * @param query SPARQL SELECT query
+     * @return first element of result as &lt;code&gt;Literal&lt;/code&gt;
+     */
+    public static Optional&lt;Literal&gt; executeSelectAsLiteral(Model model, String query) {
+<span class="nc" id="L155">        return resultSetAsLiteral(executeSparql(model, query));</span>
+    }
+
+    /**
+     * Executes SPARQL &lt;code&gt;query&lt;/code&gt; as select against &lt;code&gt;model&lt;/code&gt;
+     *
+     * @param model model to execute &lt;code&gt;query&lt;/code&gt; against
+     * @param query SPARQL select query to execute
+     * @return list of values as liertals of first selected variable in
+     * &lt;code&gt;query&lt;/code&gt;
+     */
+    public static List&lt;Literal&gt; executeSelectAsLiteralList(Model model, String query) {
+<span class="nc" id="L167">        return resultSetAsList(executeSparql(model, query), x -&gt; x.getLiteral(x.varNames().next()));</span>
+    }
+
+    /**
+     * Executes SPARQL &lt;code&gt;query&lt;/code&gt; as select against &lt;code&gt;model&lt;/code&gt;
+     *
+     * @param model model to execute &lt;code&gt;query&lt;/code&gt; against
+     * @param query SPARQL select query to execute
+     * @return list of results formatted as string like &quot;?var1: value1, ?var2:
+     * value2, ...)&quot;
+     */
+    public static List&lt;String&gt; executeSelectAsNamedResultsList(OntModel model, String query) {
+<span class="nc" id="L179">        return resultSetAsNamedList(executeSparql(model, query), &quot;&quot;);</span>
+    }
+
+    /**
+     * Executes SPARQL &lt;code&gt;query&lt;/code&gt; as select against &lt;code&gt;model&lt;/code&gt;
+     *
+     * @param model model to execute &lt;code&gt;query&lt;/code&gt; against
+     * @param query SPARQL select query to execute
+     * @param message message to be added as prefix to each result
+     * @return list of results formatted as string like &quot;&lt;code&gt;message&lt;/code&gt;
+     * ?var1: value1, ?var2: value2, ...)&quot;
+     */
+    public static List&lt;String&gt; executeSelectAsNamedResultsList(OntModel model, String query, String message) {
+<span class="nc" id="L192">        return resultSetAsNamedList(executeSparql(model, query), message);</span>
+    }
+
+    /**
+     * Executes SPARQL SELECT query and returns first result element as
+     * &lt;code&gt;RDFNode&lt;/code&gt;
+     *
+     * @param model model to execute &lt;code&gt;query&lt;/code&gt; against
+     * @param query SPARQL SELECT query
+     * @return first element of result as &lt;code&gt;RDFNode&lt;/code&gt;
+     */
+    public static Optional&lt;RDFNode&gt; executeSelectAsNode(Model model, String query) {
+<span class="nc" id="L204">        return resultSetAsNode(executeSparql(model, query));</span>
+    }
+
+    /**
+     * Executes SPARQL &lt;code&gt;query&lt;/code&gt; as select against &lt;code&gt;model&lt;/code&gt;
+     *
+     * @param model model to execute &lt;code&gt;query&lt;/code&gt; against
+     * @param query SPARQL select query to execute
+     * @return list of values as &lt;code&gt;Node&lt;/code&gt; of first selected variable in
+     * &lt;code&gt;query&lt;/code&gt;
+     */
+    public static List&lt;RDFNode&gt; executeSelectAsNodeList(OntModel model, String query) {
+<span class="nc" id="L216">        return resultSetAsNodeList(executeSparql(model, query));</span>
+    }
+
+    /**
+     * Executes SPARQL SELECT query and returns first result element as
+     * &lt;code&gt;Resource&lt;/code&gt;
+     *
+     * @param model model to execute &lt;code&gt;query&lt;/code&gt; against
+     * @param query SPARQL SELECT query
+     * @return first element of result as &lt;code&gt;Resource&lt;/code&gt;
+     */
+    public static Optional&lt;Resource&gt; executeSelectAsResource(Model model, String query) {
+<span class="fc" id="L228">        return resultSetAsResource(executeSparql(model, query));</span>
+    }
+
+    /**
+     * Executes SPARQL &lt;code&gt;query&lt;/code&gt; as select against &lt;code&gt;model&lt;/code&gt;
+     *
+     * @param model model to execute &lt;code&gt;query&lt;/code&gt; against
+     * @param query SPARQL select query to execute
+     * @return list of values as &lt;code&gt;Resource&lt;/code&gt; of first selected
+     * variable in &lt;code&gt;query&lt;/code&gt;
+     */
+    public static List&lt;Resource&gt; executeSelectAsResourceList(Model model, String query) {
+<span class="fc" id="L240">        return resultSetAsResourceList(executeSparql(model, query));</span>
+    }
+
+    /**
+     * Executes SPARQL SELECT query and converts result to generic
+     * &lt;code&gt;Stream&lt;T&gt;&lt;/code&gt;
+     *
+     * @param &lt;T&gt; return type for list
+     * @param model model to execute &lt;code&gt;query&lt;/code&gt; against
+     * @param query SPARQL SELECT query
+     * @param mapFunction mapping function from &lt;code&gt;QuerySolution&lt;/code&gt; to
+     * &lt;code&gt;T&lt;/code&gt; for transformation of single result
+     * @return result of SPARQL SELECT query as &lt;code&gt;Stream&lt;T&gt;&lt;/code&gt;
+     */
+    public static &lt;T&gt; Stream&lt;T&gt; executeSelectAsStream(Model model, String query, Function&lt;? super QuerySolution, ? extends T&gt; mapFunction) {
+<span class="nc" id="L255">        return StreamHelper.stream(executeSparql(model, query))</span>
+<span class="nc" id="L256">                .map(mapFunction);</span>
+    }
+
+    /**
+     * Executes SPARQL SELECT query and returns first result element as
+     * &lt;code&gt;T&lt;/code&gt;
+     *
+     * @param model model to execute &lt;code&gt;query&lt;/code&gt; against
+     * @param query SPARQL SELECT query
+     * @param mapFunction function to map from &lt;code&gt;QuerySolution&lt;/code&gt; to
+     * &lt;code&gt;T&lt;/code&gt;
+     * @return first element of result as &lt;code&gt;T&lt;/code&gt;
+     * @throws IllegalStateException when query returns more than a single
+     * result
+     */
+    public static &lt;T&gt; Optional&lt;T&gt; executeSelectAsValue(Model model, String query, Function&lt;? super QuerySolution, ? extends T&gt; mapFunction) {
+<span class="nc" id="L272">        return resultSetAsValue(executeSparql(model, query), mapFunction);</span>
+    }
+
+    /**
+     * Executes SPARQL SELECT query
+     *
+     * @param model model to execute &lt;code&gt;query&lt;/code&gt; against
+     * @param query SPARQL SELECT query
+     * @return result of SPARQL SELECT query
+     */
+    public static ResultSet executeSparql(Model model, String query) {
+<span class="fc" id="L283">        return createQuery(query, model).execSelect();</span>
+    }
+
+    /**
+     * Find resource with &lt;code&gt;name&lt;/code&gt; in &lt;code&gt;model&lt;/code&gt;
+     *
+     * @param name name of the &lt;code&gt;Resource&lt;/code&gt; to find
+     * @param model model to query
+     * @return &lt;code&gt;Resource&lt;/code&gt; if exists, empty &lt;code&gt;Optional&lt;/code&gt;
+     * otherwise
+     */
+    public static Optional&lt;Resource&gt; findResource(String name, Model model) {
+<span class="fc" id="L295">        return executeSelectAsResource(model, SparqlHelper.getQueryFindResourceBy(name));</span>
+    }
+
+    /**
+     * Find resource with &lt;code&gt;name&lt;/code&gt; in PIM
+     *
+     * @param name name of the &lt;code&gt;Resource&lt;/code&gt; to find
+     * @param pimID ID of the PIM to search
+     * @param dataset dataset containing the PIM
+     * @return &lt;code&gt;Resource&lt;/code&gt; if exists, empty &lt;code&gt;Optional&lt;/code&gt;
+     * otherwise
+     */
+    public static Optional&lt;Resource&gt; findResource(String name, String pimID, Dataset dataset) {
+<span class="nc" id="L308">        return findResource(name, dataset.getNamedModel(getInformationModelURI(pimID)));</span>
+    }
+
+    /**
+     * Find resource with &lt;code&gt;name&lt;/code&gt; and of given &lt;code&gt;type&lt;/code&gt; in
+     * &lt;code&gt;model&lt;/code&gt;
+     *
+     * @param type type of resource, i.e. an RDF class
+     * @param name name of the &lt;code&gt;Resource&lt;/code&gt; to find
+     * @param model model to query
+     * @return &lt;code&gt;Resource&lt;/code&gt; if exists, empty &lt;code&gt;Optional&lt;/code&gt;
+     * otherwise
+     */
+    public static Optional&lt;Resource&gt; findResource(Resource type, String name, Model model) {
+<span class="fc" id="L322">        return executeSelectAsResource(model, SparqlHelper.getQueryFindResourceBy(type, name));</span>
+    }
+
+    /**
+     * Find resource with &lt;code&gt;name&lt;/code&gt; and of given &lt;code&gt;type&lt;/code&gt; in
+     * PIM
+     *
+     * @param type type of resource, i.e. an RDF class
+     * @param name name of the &lt;code&gt;Resource&lt;/code&gt; to find
+     * @param pimID ID of the PIM to search
+     * @param dataset dataset containing the PIM
+     * @return &lt;code&gt;Resource&lt;/code&gt; if exists, empty &lt;code&gt;Optional&lt;/code&gt;
+     * otherwise
+     */
+    public static Optional&lt;Resource&gt; findResource(Resource type, String name, String pimID, Dataset dataset) {
+<span class="nc" id="L337">        return findResource(type, name, dataset.getNamedModel(getInformationModelURI(pimID)));</span>
+    }
+
+    /**
+     * @param modelId id of the model
+     * @return URI of a model used in symbIoTe
+     */
+    public static String getInformationModelURI(String modelId) {
+<span class="nc" id="L345">        return INTERNAL.MODEL_GRAPH + &quot;/&quot; + modelId;</span>
+    }
+
+    /**
+     * @param mappingId id of the mapping
+     * @return URI of a mapping used in symbIoTe
+     */
+    public static String getMappingURI(String mappingId) {
+<span class="nc" id="L353">        return INTERNAL.MAPPING_GRAPH + &quot;/&quot; + mappingId;</span>
+    }
+
+    /**
+     * Finds all owl:ontology definitions in given &lt;code&gt;model&lt;/code&gt;
+     *
+     * @param model OWL model
+     * @return set of resources used in the owl:ontology definitions
+     */
+    public static Set&lt;Resource&gt; getOntologyDefinitions(OntModel model) {
+<span class="fc" id="L363">        return model.listSubjectsWithProperty(RDF.type, OWL.Ontology)</span>
+<span class="fc" id="L364">                .toSet().stream()</span>
+<span class="fc" id="L365">                .collect(Collectors.toSet());</span>
+    }
+
+    /**
+     * Finds all owl:ontology definitions in given &lt;code&gt;model&lt;/code&gt;
+     *
+     * @param model OWL model
+     * @return set of URIs used in the owl:ontology definitions
+     */
+    public static Set&lt;String&gt; getOntologyDefinitionsURI(OntModel model) {
+<span class="nc" id="L375">        return getOntologyDefinitions(model)</span>
+<span class="nc" id="L376">                .stream()</span>
+<span class="nc" id="L377">                .map(x -&gt; x.getURI())</span>
+<span class="nc" id="L378">                .collect(Collectors.toSet());</span>
+    }
+
+    /**
+     * @param platformId id of the platform
+     * @return URI of a platform used in symbIoTe
+     */
+    public static String getPlatformURI(String platformId) {
+<span class="nc" id="L386">        return INTERNAL.PLATFORMS_GRAPH + &quot;/&quot; + platformId;</span>
+    }
+
+    /**
+     * @param resourceId id of the resource
+     * @return URI of a resource used in symbIoTe
+     */
+    public static String getResourceURI(String resourceId) {
+<span class="nc" id="L394">        return INTERNAL.RESOURCES_GRAPH + &quot;/&quot; + resourceId;</span>
+    }
+
+    /**
+     * @param sdevId id of the smart device
+     * @return URI of a smart device used in symbIoTe
+     */
+    public static String getSdevURI(String sdevId) {
+<span class="nc" id="L402">        return INTERNAL.SDEVS_GRAPH + &quot;/&quot; + sdevId;</span>
+    }
+
+    /**
+     * @param sspId id of the smart space
+     * @return URI of a smart space used in symbIoTe
+     */
+    public static String getSspURI(String sspId) {
+<span class="nc" id="L410">        return INTERNAL.SSPS_GRAPH + &quot;/&quot; + sspId;</span>
+    }
+
+    /**
+     * Recursively loads imports of OWL model
+     *
+     * @param model OWL model
+     * @throws IOException when there are errors loading an import
+     */
+    public static void loadImports(OntModel model) throws IOException {
+<span class="fc" id="L420">        model.getDocumentManager().setProcessImports(true);</span>
+<span class="fc" id="L421">        List&lt;String&gt; failedImports = Collections.synchronizedList(new ArrayList&lt;&gt;());</span>
+<span class="fc" id="L422">        model.getDocumentManager().setReadFailureHandler((String url, Model model1, Exception e) -&gt; {</span>
+<span class="nc" id="L423">            failedImports.add(&quot;URL: &quot; + url + &quot;, Reason: &quot; + e.getMessage());</span>
+<span class="nc" id="L424">        });</span>
+<span class="fc" id="L425">        model.loadImports();</span>
+<span class="fc" id="L426">        model.getDocumentManager().setReadFailureHandler(null);</span>
+<span class="pc bpc" id="L427" title="1 of 2 branches missed.">        if (!failedImports.isEmpty()) {</span>
+<span class="nc" id="L428">            throw new IOException(&quot;failed to load imported ontologies: &quot; + failedImports.toString());</span>
+        }
+<span class="fc" id="L430">    }</span>
+
+    /**
+     * creates OWL model
+     *
+     * @param rdfInfo RDF triples to put into model
+     * @param includeImport true if owl:import should be loaded recursively,
+     * otherwise false
+     * @param withInference true if OWL inference should be enable in new model,
+     * otherwise false
+     * @return OWL model, optionally with imports included and OWL inference
+     * @throws IOException
+     */
+    public static OntModel readModel(RDFInfo rdfInfo, boolean includeImport, boolean withInference) throws IOException {
+<span class="nc" id="L444">        return readModel(rdfInfo.getRdf(), rdfInfo.getRdfFormat(), includeImport, withInference);</span>
+    }
+
+    /**
+     * creates OWL model with no imports loaded and no inference support
+     *
+     * @param rdfInfo RDF triples to put into model
+     * @return OWL model with no imports loaded and no inference support
+     * @throws IOException
+     */
+    public static OntModel readModel(RDFInfo rdfInfo) throws IOException {
+<span class="nc" id="L455">        return readModel(rdfInfo, false, false);</span>
+    }
+
+    /**
+     * creates OWL model with no imports loaded and no inference support
+     *
+     * @param filePath filepath of serialized RDF
+     * @return OWL model with no imports loaded and no inference support
+     * @throws IOException
+     */
+    public static OntModel readModel(String filePath) throws IOException {
+<span class="fc" id="L466">        return readModel(filePath, false, false);</span>
+    }
+
+    /**
+     * creates OWL model
+     *
+     * @param filePath filepath of serialized RDF
+     * @param includeImport true if owl:import should be loaded recursively,
+     * otherwise false
+     * @param withInference true if OWL inference should be enable in new model,
+     * otherwise false
+     * @return OWL model, optionally with imports included and OWL inference
+     * @throws IOException
+     */
+    public static OntModel readModel(String filePath, boolean includeImport, boolean withInference) throws IOException {
+<span class="fc bfc" id="L481" title="All 2 branches covered.">        return asOntModel(</span>
+<span class="fc" id="L482">                (DOC_MANAGER != null ? DOC_MANAGER.getFileManager() : FileManager.get()).loadModel(filePath),</span>
+                includeImport,
+                withInference);
+    }
+
+    /**
+     * creates OWL model with no imports loaded and no inference support
+     *
+     * @param rdf string containing serialzed RDF
+     * @param format serialization format of &lt;code&gt;rdf&lt;/code&gt;
+     * @return OWL model with no imports loaded and no inference support
+     * @throws IOException
+     */
+    public static OntModel readModel(String rdf, RDFFormat format) throws IOException {
+<span class="nc" id="L496">        return readModel(rdf, format, false, false);</span>
+    }
+
+    /**
+     * creates OWL model
+     *
+     * @param rdf string containing serialzed RDF
+     * @param format serialization format of &lt;code&gt;rdf&lt;/code&gt;
+     * @param includeImport true if owl:import should be loaded recursively,
+     * otherwise false
+     * @param withInference true if OWL inference should be enable in new model,
+     * otherwise false
+     * @return OWL model, optionally with imports included and OWL inference
+     * @throws IOException
+     */
+    public static OntModel readModel(String rdf, RDFFormat format, boolean includeImport, boolean withInference) throws IOException {
+<span class="nc" id="L512">        OntModel model = createModel(withInference);</span>
+        //eleni comment
+<span class="nc" id="L514">        model.getDocumentManager().setProcessImports(false);</span>
+<span class="nc" id="L515">        try (InputStream is = new ByteArrayInputStream(rdf.getBytes())) {</span>
+<span class="nc" id="L516">            model.read(is, null, format.name());</span>
+<span class="nc bnc" id="L517" title="All 8 branches missed.">        }</span>
+<span class="nc bnc" id="L518" title="All 2 branches missed.">        if (includeImport) {</span>
+<span class="nc" id="L519">            loadImports(model);</span>
+        }
+<span class="nc" id="L521">        return model;</span>
+    }
+
+    /**
+     * Maps a SPARQL ResultSet to a List&lt;T&gt;
+     *
+     * @param &lt;T&gt; type of the list
+     * @param resultSet reulst set to convert
+     * @param mapFunction mapping function from &lt;code&gt;QuerySolution&lt;/code&gt; to
+     * &lt;code&gt;T&lt;/code&gt; for transformation of single result
+     * @return mapped result set
+     */
+    public static &lt;T&gt; List&lt;T&gt; resultSetAsList(ResultSet resultSet, Function&lt;? super QuerySolution, ? extends T&gt; mapFunction) {
+<span class="fc" id="L534">        return StreamHelper.stream(resultSet)</span>
+<span class="fc" id="L535">                .map(mapFunction)</span>
+<span class="fc" id="L536">                .collect(Collectors.toList());</span>
+    }
+
+    public static Optional&lt;Literal&gt; resultSetAsLiteral(ResultSet resultSet) {
+<span class="nc" id="L540">        return resultSetAsValue(resultSet, x -&gt; x.getLiteral(x.varNames().next()));</span>
+    }
+
+    /**
+     * Maps a SPARQL ResultSet to a &lt;code&gt;List&lt;Literal&gt;&lt;/code&gt;
+     *
+     * @param resultSet reulst set to convert
+     * @return mapped result set
+     */
+    public static List&lt;Literal&gt; resultSetAsLiteralList(ResultSet resultSet) {
+<span class="nc" id="L550">        return StreamHelper.stream(resultSet)</span>
+<span class="nc" id="L551">                .map(x -&gt; x.getLiteral(x.varNames().next()))</span>
+<span class="nc" id="L552">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * Converts &lt;code&gt;ResultSet&lt;/code&gt; as list of elements [name]: [value]
+     *
+     * @param resultSet ResultSet to convert
+     * @param message message to be added as prefix to each result
+     * @return list of results formatted as string like &quot;&lt;code&gt;message&lt;/code&gt;
+     * ?var1: value1, ?var2: value2, ...)&quot;
+     */
+    public static List&lt;String&gt; resultSetAsNamedList(ResultSet resultSet, String message) {
+<span class="nc" id="L564">        return resultSetAsList(resultSet, x</span>
+<span class="nc" id="L565">                -&gt; message + StreamHelper.stream(x.varNames())</span>
+<span class="nc" id="L566">                        .map(y -&gt; y + &quot;: &quot; + x.get(y))</span>
+<span class="nc" id="L567">                        .collect(Collectors.joining(&quot;,&quot;)));</span>
+    }
+
+    public static Optional&lt;RDFNode&gt; resultSetAsNode(ResultSet resultSet) {
+<span class="nc" id="L571">        return resultSetAsValue(resultSet, x -&gt; x.get(x.varNames().next()));</span>
+    }
+
+    public static List&lt;RDFNode&gt; resultSetAsNodeList(ResultSet resultSet) {
+<span class="nc" id="L575">        return resultSetAsList(resultSet, x -&gt; x.get(x.varNames().next()));</span>
+    }
+
+    public static Optional&lt;Resource&gt; resultSetAsResource(ResultSet resultSet) {
+<span class="fc" id="L579">        return resultSetAsValue(resultSet, x -&gt; x.getResource(x.varNames().next()));</span>
+    }
+
+    public static List&lt;Resource&gt; resultSetAsResourceList(ResultSet resultSet) {
+<span class="fc" id="L583">        return resultSetAsList(resultSet, x -&gt; x.getResource(x.varNames().next()));</span>
+    }
+
+    public static &lt;T&gt; Optional&lt;T&gt; resultSetAsValue(ResultSet resultSet, Function&lt;? super QuerySolution, ? extends T&gt; mapFunction) {
+<span class="fc" id="L587">        Optional&lt;T&gt; result = Optional.empty();</span>
+<span class="fc" id="L588">        List&lt;T&gt; temp = resultSetAsList(resultSet, mapFunction);</span>
+<span class="pc bpc" id="L589" title="2 of 4 branches missed.">        if (temp != null &amp;&amp; !temp.isEmpty()) {</span>
+<span class="fc" id="L590">            result = Optional.ofNullable(temp.get(0));</span>
+<span class="pc bpc" id="L591" title="1 of 2 branches missed.">            if (temp.size() &gt; 1) {</span>
+<span class="nc" id="L592">                throw new IllegalStateException(&quot;query returned more than one result!&quot;);</span>
+            }
+        }
+<span class="fc" id="L595">        return result;</span>
+    }
+
+    /**
+     * Unloads/removes triples from all import
+     *
+     * @param model OWL model
+     */
+    public static void unloadImports(OntModel model) {
+<span class="nc" id="L604">        model.listImportedOntologyURIs().forEach(x -&gt; DOC_MANAGER.unloadImport(model, x));</span>
+<span class="nc" id="L605">    }</span>
+
+    /**
+     * Adds OWL inference to RDF model
+     *
+     * @param model RDF model
+     * @return OWL model with OWL inference
+     */
+    public static OntModel withInf(Model model) {
+<span class="pc bpc" id="L614" title="1 of 2 branches missed.">        if (model instanceof OntModel) {</span>
+            OntModel ontModel;
+<span class="fc" id="L616">            ontModel = (OntModel) model;</span>
+<span class="pc bpc" id="L617" title="1 of 2 branches missed.">            if (ontModel.getSpecification().equals(MODEL_SPEC_OWL_INF)) {</span>
+<span class="nc" id="L618">                return ontModel;</span>
+            }
+        }
+<span class="fc" id="L621">        return ModelFactory.createOntologyModel(MODEL_SPEC_OWL_INF, model);</span>
+    }
+
+    /**
+     * Serializes the &lt;code&gt;model&lt;/code&gt; including all loaded imports using the
+     * &lt;code&gt;format&lt;/code&gt;
+     *
+     * @param model OWL model
+     * @param format RDF format
+     * @return String serialization of &lt;code&gt;model&lt;/code&gt;
+     */
+    public static String writeAll(OntModel model, RDFFormat format) {
+<span class="nc" id="L633">        StringWriter writer = new StringWriter();</span>
+<span class="nc" id="L634">        model.writeAll(writer, format.name());</span>
+<span class="nc" id="L635">        return writer.toString();</span>
+    }
+
+    /**
+     * Serializes the &lt;code&gt;model&lt;/code&gt; using the &lt;code&gt;format&lt;/code&gt;
+     *
+     * @param model RDF model
+     * @param format RDF format
+     * @return String serialization of &lt;code&gt;model&lt;/code&gt;
+     */
+    public static String writeModel(Model model, RDFFormat format) {
+<span class="nc" id="L646">        StringWriter writer = new StringWriter();</span>
+<span class="nc" id="L647">        model.write(writer, format.name());</span>
+<span class="nc" id="L648">        return writer.toString();</span>
+    }
+
+    private static void loadPrefixes(Model config) {
+<span class="fc" id="L652">        PREFIXES = PrefixMapping.Factory.create();</span>
+<span class="fc bfc" id="L653" title="All 2 branches covered.">        for (ResIterator i = config.listResourcesWithProperty(RDF.type, OntDocumentManager.ONTOLOGY_SPEC); i.hasNext();) {</span>
+<span class="fc" id="L654">            Resource root = i.nextResource();</span>
+<span class="fc" id="L655">            Statement s = root.getProperty(OntDocumentManager.PUBLIC_URI);</span>
+<span class="pc bpc" id="L656" title="1 of 2 branches missed.">            if (s != null) {</span>
+<span class="fc" id="L657">                String publicURI = s.getResource().getURI();</span>
+<span class="fc" id="L658">                s = root.getProperty(OntDocumentManager.PREFIX);</span>
+<span class="fc bfc" id="L659" title="All 2 branches covered.">                if (s != null) {</span>
+<span class="fc" id="L660">                    PREFIXES.setNsPrefix(s.getLiteral().getString(), publicURI);</span>
+                }
+            }
+<span class="fc" id="L663">        }</span>
+
+<span class="fc" id="L665">    }</span>
+
+    protected static void init() {
+<span class="fc" id="L668">        String configFile = Thread.currentThread().getContextClassLoader().getResource(ONT_DOC_MANAGER_CONFIG).toString();</span>
+<span class="fc" id="L669">        init(configFile);</span>
+<span class="fc" id="L670">    }</span>
+
+    protected static void init(String configFilePath) {
+        try {
+<span class="fc" id="L674">            Model config = readModel(configFilePath);</span>
+<span class="fc" id="L675">            loadPrefixes(config);</span>
+<span class="fc" id="L676">            DOC_MANAGER = new OntDocumentManager(config);</span>
+<span class="fc" id="L677">            MODEL_SPEC_OWL.setDocumentManager(DOC_MANAGER);</span>
+<span class="fc" id="L678">            MODEL_SPEC_OWL_INF.setDocumentManager(DOC_MANAGER);</span>
+<span class="nc" id="L679">        } catch (IOException ex) {</span>
+<span class="nc" id="L680">            log.error(&quot;error loading config file for ModelHelper &quot; + configFilePath, ex);</span>
+<span class="fc" id="L681">        }</span>
+<span class="fc" id="L682">    }</span>
+
+<span class="nc" id="L684">    private ModelHelper() {</span>
+
+<span class="nc" id="L686">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

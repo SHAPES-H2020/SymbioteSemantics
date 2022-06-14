@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BIM_UNIT.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SymbIoTeSemantics</a> &gt; <a href="index.source.html" class="el_package">eu.h2020.symbiote.semantics.ontology</a> &gt; <span class="el_source">BIM_UNIT.java</span></div><h1>BIM_UNIT.java</h1><pre class="source lang-java linenums">package eu.h2020.symbiote.semantics.ontology;
+import org.apache.jena.rdf.model.*;
+import org.apache.jena.ontology.*;
+
+import org.apache.commons.lang3.StringUtils;
+
+<span class="nc" id="L7">public class BIM_UNIT {</span>
+    /** &lt;p&gt;The ontology model that holds the vocabulary terms&lt;/p&gt; */
+<span class="fc" id="L9">    private static final OntModel M_MODEL = ModelFactory.createOntologyModel( OntModelSpec.OWL_MEM, null );</span>
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a string&lt;/p&gt; */
+    public static final String NS = &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#&quot;;
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a string&lt;/p&gt;
+     * @return namespace as String
+     * @see #NS */
+<span class="fc" id="L17">    public static String getURI() {return StringUtils.stripEnd(NS, &quot;#&quot;);}</span>
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a resource&lt;/p&gt; */
+<span class="fc" id="L20">    public static final Resource NAMESPACE = M_MODEL.createResource( NS );</span>
+    
+    /** &lt;p&gt;The ontology's owl:versionInfo as a string&lt;/p&gt; */
+    public static final String VERSION_INFO = &quot;v2.3.0 2018/07/23 12:00:00&quot;;
+    
+<span class="fc" id="L25">    public static String getVersionURI() { return getURI() + &quot;/2.3.0&quot;; }</span>
+<span class="fc" id="L26">    public static final OntClass SurfaceDensityRateUnit = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#SurfaceDensityRateUnit&quot; );</span>
+    
+<span class="fc" id="L28">    public static final Individual beatsPerMinute = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#beatsPerMinute&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L30">    public static final Individual breathsPerMinute = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#breathsPerMinute&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L32">    public static final Individual degreeFahrenheit = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#degreeFahrenheit&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L34">    public static final Individual kilogramSecondPerCubicMetre = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#kilogramSecondPerCubicMetre&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L36">    public static final Individual microgramDayPerCubicMetre = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#microgramDayPerCubicMetre&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L38">    public static final Individual microgramHourPerCubicMetre = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#microgramHourPerCubicMetre&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L40">    public static final Individual microgramPerSquareMetreDay = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#microgramPerSquareMetreDay&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L42">    public static final Individual milligramDayPerCubicMetre = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#milligramDayPerCubicMetre&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L44">    public static final Individual milligramHourPerCubicMetre = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#milligramHourPerCubicMetre&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L46">    public static final Individual milligramPerDecilitre = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#milligramPerDecilitre&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L48">    public static final Individual milligramPerSquareMetreMonth = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#milligramPerSquareMetreMonth&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L50">    public static final Individual nanogram = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#nanogram&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L52">    public static final Individual nanogramPerCubicMetre = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#nanogramPerCubicMetre&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L54">    public static final Individual nanogramPerLitre = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#nanogramPerLitre&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L56">    public static final Individual nanogramPerSquareMetre = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#nanogramPerSquareMetre&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L58">    public static final Individual nanogramPerSquareMetreDay = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#nanogramPerSquareMetreDay&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L60">    public static final Individual onePerMeter = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#onePerMeter&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L62">    public static final Individual onePerMinute = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#onePerMinute&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L64">    public static final Individual partsPerBillion = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#partsPerBillion&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L66">    public static final Individual partsPerMillion = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#partsPerMillion&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L68">    public static final Individual partsPerTrillion = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#partsPerTrillion&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L70">    public static final Individual picogram = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#picogram&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L72">    public static final Individual picogramPerCubicMetre = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#picogramPerCubicMetre&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L74">    public static final Individual revolutionsPerMinute = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/unit#revolutionsPerMinute&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

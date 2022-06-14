@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BIM_STADIUM.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SymbIoTeSemantics</a> &gt; <a href="index.source.html" class="el_package">eu.h2020.symbiote.semantics.ontology</a> &gt; <span class="el_source">BIM_STADIUM.java</span></div><h1>BIM_STADIUM.java</h1><pre class="source lang-java linenums">package eu.h2020.symbiote.semantics.ontology;
+import org.apache.jena.rdf.model.*;
+import org.apache.jena.ontology.*;
+
+import org.apache.commons.lang3.StringUtils;
+
+<span class="nc" id="L7">public class BIM_STADIUM {</span>
+    /** &lt;p&gt;The ontology model that holds the vocabulary terms&lt;/p&gt; */
+<span class="fc" id="L9">    private static final OntModel M_MODEL = ModelFactory.createOntologyModel( OntModelSpec.OWL_MEM, null );</span>
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a string&lt;/p&gt; */
+    public static final String NS = &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#&quot;;
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a string&lt;/p&gt;
+     * @return namespace as String
+     * @see #NS */
+<span class="fc" id="L17">    public static String getURI() {return StringUtils.stripEnd(NS, &quot;#&quot;);}</span>
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a resource&lt;/p&gt; */
+<span class="fc" id="L20">    public static final Resource NAMESPACE = M_MODEL.createResource( NS );</span>
+    
+    /** &lt;p&gt;The ontology's owl:versionInfo as a string&lt;/p&gt; */
+    public static final String VERSION_INFO = &quot;v2.3.0 2018/07/23 12:00:00&quot;;
+    
+<span class="fc" id="L25">    public static String getVersionURI() { return getURI() + &quot;/2.3.0&quot;; }</span>
+<span class="fc" id="L26">    public static final ObjectProperty hasAttachment = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#hasAttachment&quot; );</span>
+    
+<span class="fc" id="L28">    public static final ObjectProperty hasMessage = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#hasMessage&quot; );</span>
+    
+<span class="fc" id="L30">    public static final ObjectProperty hasOrderItem = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#hasOrderItem&quot; );</span>
+    
+<span class="fc" id="L32">    public static final ObjectProperty hasProduct = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#hasProduct&quot; );</span>
+    
+<span class="fc" id="L34">    public static final ObjectProperty hasPromotion = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#hasPromotion&quot; );</span>
+    
+<span class="fc" id="L36">    public static final ObjectProperty hasSender = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#hasSender&quot; );</span>
+    
+<span class="fc" id="L38">    public static final ObjectProperty referencesProduct = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#referencesProduct&quot; );</span>
+    
+<span class="fc" id="L40">    public static final ObjectProperty referencesPromotion = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#referencesPromotion&quot; );</span>
+    
+<span class="fc" id="L42">    public static final DatatypeProperty content = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#content&quot; );</span>
+    
+<span class="fc" id="L44">    public static final DatatypeProperty discount = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#discount&quot; );</span>
+    
+<span class="fc" id="L46">    public static final DatatypeProperty end = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#end&quot; );</span>
+    
+<span class="fc" id="L48">    public static final DatatypeProperty newPrice = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#newPrice&quot; );</span>
+    
+<span class="fc" id="L50">    public static final DatatypeProperty picture = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#picture&quot; );</span>
+    
+<span class="fc" id="L52">    public static final DatatypeProperty price = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#price&quot; );</span>
+    
+<span class="fc" id="L54">    public static final DatatypeProperty productId = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#productId&quot; );</span>
+    
+<span class="fc" id="L56">    public static final DatatypeProperty quantity = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#quantity&quot; );</span>
+    
+<span class="fc" id="L58">    public static final DatatypeProperty start = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#start&quot; );</span>
+    
+<span class="fc" id="L60">    public static final DatatypeProperty timestamp = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#timestamp&quot; );</span>
+    
+<span class="fc" id="L62">    public static final DatatypeProperty type = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#type&quot; );</span>
+    
+<span class="fc" id="L64">    public static final OntClass Attachment = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#Attachment&quot; );</span>
+    
+<span class="fc" id="L66">    public static final OntClass Catalog = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#Catalog&quot; );</span>
+    
+<span class="fc" id="L68">    public static final OntClass FoodStore = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#FoodStore&quot; );</span>
+    
+<span class="fc" id="L70">    public static final OntClass GetCatalogService = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#GetCatalogService&quot; );</span>
+    
+<span class="fc" id="L72">    public static final OntClass GetInformationService = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#GetInformationService&quot; );</span>
+    
+<span class="fc" id="L74">    public static final OntClass GoodStore = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#GoodStore&quot; );</span>
+    
+<span class="fc" id="L76">    public static final OntClass Message = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#Message&quot; );</span>
+    
+<span class="fc" id="L78">    public static final OntClass NotificationService = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#NotificationService&quot; );</span>
+    
+<span class="fc" id="L80">    public static final OntClass Order = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#Order&quot; );</span>
+    
+<span class="fc" id="L82">    public static final OntClass OrderItem = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#OrderItem&quot; );</span>
+    
+<span class="fc" id="L84">    public static final OntClass PlaceOrderService = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#PlaceOrderService&quot; );</span>
+    
+<span class="fc" id="L86">    public static final OntClass Product = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#Product&quot; );</span>
+    
+<span class="fc" id="L88">    public static final OntClass Promotion = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#Promotion&quot; );</span>
+    
+<span class="fc" id="L90">    public static final OntClass PromowallDevice = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#PromowallDevice&quot; );</span>
+    
+<span class="fc" id="L92">    public static final OntClass PromowallService = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#PromowallService&quot; );</span>
+    
+<span class="fc" id="L94">    public static final OntClass PublishInformationService = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#PublishInformationService&quot; );</span>
+    
+<span class="fc" id="L96">    public static final OntClass PublishPromotionService = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#PublishPromotionService&quot; );</span>
+    
+<span class="fc" id="L98">    public static final OntClass RetailerDevice = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#RetailerDevice&quot; );</span>
+    
+<span class="fc" id="L100">    public static final OntClass RetailerService = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#RetailerService&quot; );</span>
+    
+<span class="fc" id="L102">    public static final OntClass Sender = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#Sender&quot; );</span>
+    
+<span class="fc" id="L104">    public static final OntClass Store = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#Store&quot; );</span>
+    
+<span class="fc" id="L106">    public static final OntClass VisitorDevice = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#VisitorDevice&quot; );</span>
+    
+<span class="fc" id="L108">    public static final OntClass VisitorService = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartstadium#VisitorService&quot; );</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

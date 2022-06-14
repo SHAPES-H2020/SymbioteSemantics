@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BIM_RESIDENCE.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SymbIoTeSemantics</a> &gt; <a href="index.source.html" class="el_package">eu.h2020.symbiote.semantics.ontology</a> &gt; <span class="el_source">BIM_RESIDENCE.java</span></div><h1>BIM_RESIDENCE.java</h1><pre class="source lang-java linenums">package eu.h2020.symbiote.semantics.ontology;
+import org.apache.jena.rdf.model.*;
+import org.apache.jena.ontology.*;
+
+import org.apache.commons.lang3.StringUtils;
+
+<span class="nc" id="L7">public class BIM_RESIDENCE {</span>
+    /** &lt;p&gt;The ontology model that holds the vocabulary terms&lt;/p&gt; */
+<span class="fc" id="L9">    private static final OntModel M_MODEL = ModelFactory.createOntologyModel( OntModelSpec.OWL_MEM, null );</span>
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a string&lt;/p&gt; */
+    public static final String NS = &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#&quot;;
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a string&lt;/p&gt;
+     * @return namespace as String
+     * @see #NS */
+<span class="fc" id="L17">    public static String getURI() {return StringUtils.stripEnd(NS, &quot;#&quot;);}</span>
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a resource&lt;/p&gt; */
+<span class="fc" id="L20">    public static final Resource NAMESPACE = M_MODEL.createResource( NS );</span>
+    
+    /** &lt;p&gt;The ontology's owl:versionInfo as a string&lt;/p&gt; */
+    public static final String VERSION_INFO = &quot;v2.3.0 2018/07/23 12:00:00&quot;;
+    
+<span class="fc" id="L25">    public static String getVersionURI() { return getURI() + &quot;/2.3.0&quot;; }</span>
+<span class="fc" id="L26">    public static final OntClass BloodPressureMeter = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#BloodPressureMeter&quot; );</span>
+    
+<span class="fc" id="L28">    public static final OntClass BodyScale = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#BodyScale&quot; );</span>
+    
+<span class="fc" id="L30">    public static final OntClass CloseCapability = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#CloseCapability&quot; );</span>
+    
+<span class="fc" id="L32">    public static final OntClass CloseEffect = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#CloseEffect&quot; );</span>
+    
+<span class="fc" id="L34">    public static final OntClass Curtain = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#Curtain&quot; );</span>
+    
+<span class="fc" id="L36">    public static final OntClass DimmerCapability = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#DimmerCapability&quot; );</span>
+    
+<span class="fc" id="L38">    public static final OntClass DimmerEffect = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#DimmerEffect&quot; );</span>
+    
+<span class="fc" id="L40">    public static final OntClass ElectricityMeter = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#ElectricityMeter&quot; );</span>
+    
+<span class="fc" id="L42">    public static final OntClass EnviromentalSensor = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#EnviromentalSensor&quot; );</span>
+    
+<span class="fc" id="L44">    public static final OntClass Fancoil = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#Fancoil&quot; );</span>
+    
+<span class="fc" id="L46">    public static final OntClass GaitMeasureDevice = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#GaitMeasureDevice&quot; );</span>
+    
+<span class="fc" id="L48">    public static final OntClass HealthDevice = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#HealthDevice&quot; );</span>
+    
+<span class="fc" id="L50">    public static final OntClass HumiditySensor = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#HumiditySensor&quot; );</span>
+    
+<span class="fc" id="L52">    public static final OntClass Light = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#Light&quot; );</span>
+    
+<span class="fc" id="L54">    public static final OntClass OnOffCapability = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#OnOffCapability&quot; );</span>
+    
+<span class="fc" id="L56">    public static final OntClass OnOffEffect = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#OnOffEffect&quot; );</span>
+    
+<span class="fc" id="L58">    public static final OntClass OpenCapability = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#OpenCapability&quot; );</span>
+    
+<span class="fc" id="L60">    public static final OntClass OpenEffect = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#OpenEffect&quot; );</span>
+    
+<span class="fc" id="L62">    public static final OntClass Person = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#Person&quot; );</span>
+    
+<span class="fc" id="L64">    public static final OntClass PowerMeter = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#PowerMeter&quot; );</span>
+    
+<span class="fc" id="L66">    public static final OntClass RGBCapability = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#RGBCapability&quot; );</span>
+    
+<span class="fc" id="L68">    public static final OntClass RGBEffect = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#RGBEffect&quot; );</span>
+    
+<span class="fc" id="L70">    public static final OntClass Room = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#Room&quot; );</span>
+    
+<span class="fc" id="L72">    public static final OntClass SetPositionCapability = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#SetPositionCapability&quot; );</span>
+    
+<span class="fc" id="L74">    public static final OntClass SetPositionEffect = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#SetPositionEffect&quot; );</span>
+    
+<span class="fc" id="L76">    public static final OntClass SetTemperatureCapability = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#SetTemperatureCapability&quot; );</span>
+    
+<span class="fc" id="L78">    public static final OntClass SetTemperatureEffect = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#SetTemperatureEffect&quot; );</span>
+    
+<span class="fc" id="L80">    public static final OntClass StopCapability = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#StopCapability&quot; );</span>
+    
+<span class="fc" id="L82">    public static final OntClass StopEffect = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#StopEffect&quot; );</span>
+    
+<span class="fc" id="L84">    public static final OntClass TemperatureSensor = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#TemperatureSensor&quot; );</span>
+    
+<span class="fc" id="L86">    public static final OntClass VoltageMeter = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#VoltageMeter&quot; );</span>
+    
+<span class="fc" id="L88">    public static final OntClass Window = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#Window&quot; );</span>
+    
+<span class="fc" id="L90">    public static final Individual BitValueRestriction = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#BitValueRestriction&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L92">    public static final Individual activityState = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#activityState&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L94">    public static final Individual cadence = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#cadence&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L96">    public static final Individual color = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#color&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L98">    public static final Individual diastolicBloodPressure = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#diastolicBloodPressure&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L100">    public static final Individual heartRate = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#heartRate&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L102">    public static final Individual onOffState = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#onOffState&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L104">    public static final Individual openCloseState = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#openCloseState&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L106">    public static final Individual position = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#position&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L108">    public static final Individual stepLength = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#stepLength&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L110">    public static final Individual strideLength = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#strideLength&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L112">    public static final Individual systolicBloodPressure = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/bim/smartresidence#systolicBloodPressure&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

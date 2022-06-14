@@ -1,0 +1,43 @@
+19-05-2022
+-------------------
+1)In bim-property-v2.3.0.ttl
+
+###  http://www.symbiote-h2020.eu/ontology/bim/property#testProperty
+
+:testProperty rdf:type owl:NamedIndividual .
+
+###  http://www.symbiote-h2020.eu/ontology/bim/property#airQualityResource1
+
+:airQualityResource1  rdf:type owl:NamedIndividual .
+
+
+###  http://www.symbiote-h2020.eu/ontology/bim/property#current
+
+:current rdf:type owl:NamedIndividual .
+
+###  http://www.symbiote-h2020.eu/ontology/bim/property#time
+
+:time  rdf:type owl:NamedIndividual .
+
+
+###  http://www.symbiote-h2020.eu/ontology/bim-0.1/property#xairQualityScheme
+
+:xairQualityScheme rdf:type owl:NamedIndividual .
+
+
+2)In BIM_PROPERTY.java:
+
+ renamed
+ public static final Individual xairQualityScheme = M_MODEL.createIndividual( "http://www.symbiote-h2020.eu/ontology/bim/property#xairQualityScheme", M_MODEL.createClass( "http://www.w3.org/2004/02/skos/core#Scheme" ) );
+
+added:
+
+ //current property added for Smartplug
+ public static final Individual current = M_MODEL.createIndividual( "http://www.symbiote-h2020.eu/ontology/bim/property#current", M_MODEL.createClass( "http://www.w3.org/2002/07/owl#NamedIndividual" ) );
+
+ public static final Individual time = M_MODEL.createIndividual( "http://www.symbiote-h2020.eu/ontology/bim/property#time", M_MODEL.createClass( "http://www.w3.org/2002/07/owl#NamedIndividual" ) );
+
+ public static final Individual testProperty = M_MODEL.createIndividual( "http://www.symbiote-h2020.eu/ontology/bim/property#testProperty", M_MODEL.createClass( "http://www.w3.org/2002/07/owl#NamedIndividual" ) );
+
+ public static final Individual airQualityResource1 = M_MODEL.createIndividual( "http://www.symbiote-h2020.eu/ontology/bim/property#airQualityResource1", M_MODEL.createClass( "http://www.w3.org/2002/07/owl#NamedIndividual" ) );
+

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JsonLDHelper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SymbIoTeSemantics</a> &gt; <a href="index.source.html" class="el_package">eu.h2020.symbiote.jsonld</a> &gt; <span class="el_source">JsonLDHelper.java</span></div><h1>JsonLDHelper.java</h1><pre class="source lang-java linenums">package eu.h2020.symbiote.jsonld;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import eu.h2020.symbiote.core.internal.RDFFormat;
+import static eu.h2020.symbiote.jsonld.JsonLdProperties.CONTEXT;
+import static eu.h2020.symbiote.jsonld.JsonLdProperties.ID;
+import static eu.h2020.symbiote.jsonld.JsonLdProperties.TYPE;
+import eu.h2020.symbiote.semantics.ModelHelper;
+import java.io.IOException;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.StreamSupport;
+import org.apache.jena.ext.com.google.common.collect.Sets;
+import org.apache.jena.rdf.model.Model;
+
+/**
+ *
+ * @author Michael Jacoby &lt;michael.jacoby@iosb.fraunhofer.de&gt;
+ */
+public class JsonLDHelper {
+
+    public static JsonNode asJsonNode(String json) {
+        try {
+<span class="nc" id="L30">            return new ObjectMapper().readTree(json);</span>
+<span class="nc" id="L31">        } catch (IOException ex) {</span>
+<span class="nc" id="L32">            return null;</span>
+        }
+    }
+
+    public static Set&lt;String&gt; findTypes(Class clazz) {
+        try {
+<span class="nc" id="L38">            return findTypes(asJsonNode(new JsonLDObjectMapper().writeValueAsString(clazz.newInstance())));</span>
+<span class="nc" id="L39">        } catch (InstantiationException | IllegalAccessException | JsonProcessingException ex) {</span>
+<span class="nc" id="L40">            throw new IllegalArgumentException(&quot;could not instantiate class&quot;, ex);</span>
+        }
+    }
+
+    public static Set&lt;String&gt; findTypes(JsonNode node) {
+<span class="nc" id="L45">        Set&lt;String&gt; result = Sets.newHashSet();</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        if (node == null) {</span>
+<span class="nc" id="L47">            return result;</span>
+        }
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        if (node.has(TYPE)) {</span>
+<span class="nc" id="L50">            JsonNode type = node.get(TYPE);</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">            if (type.isTextual()) {</span>
+<span class="nc" id="L52">                result.add(type.asText());</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">            } else if (type.isArray()) {</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">                for (JsonNode typeEntry : type) {</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">                    if (typeEntry.isTextual()) {</span>
+<span class="nc" id="L56">                        result.add(typeEntry.asText());</span>
+                    }
+<span class="nc" id="L58">                }</span>
+            }
+        }
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (!node.isContainerNode()) {</span>
+<span class="nc" id="L62">            return result;</span>
+        }
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        for (JsonNode child : node) {</span>
+<span class="nc" id="L65">            result.addAll(findTypes(child));</span>
+<span class="nc" id="L66">        }</span>
+<span class="nc" id="L67">        return result;</span>
+    }
+
+    public static boolean isJsonLD(JsonNode node) {
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        if (node == null) {</span>
+<span class="nc" id="L72">            return false;</span>
+        }
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if (node.isValueNode()) {</span>
+<span class="nc" id="L75">            return true;</span>
+        }
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (node.isObject()) {</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">            if (!node.hasNonNull(TYPE)) {</span>
+<span class="nc" id="L79">                return false;</span>
+            }
+<span class="nc" id="L81">            return StreamSupport.stream(</span>
+<span class="nc" id="L82">                    Spliterators.spliteratorUnknownSize(node.fields(), Spliterator.ORDERED),</span>
+                    false)
+<span class="nc bnc" id="L84" title="All 2 branches missed.">                    .filter(x -&gt; !x.getKey().equalsIgnoreCase(CONTEXT))</span>
+<span class="nc" id="L85">                    .map(x -&gt; x.getValue())</span>
+<span class="nc" id="L86">                    .allMatch(x -&gt; isJsonLD(x));</span>
+        }
+<span class="nc" id="L88">        return StreamSupport.stream(</span>
+<span class="nc" id="L89">                Spliterators.spliteratorUnknownSize(node.elements(), Spliterator.ORDERED),</span>
+                false)
+<span class="nc" id="L91">                .allMatch(x -&gt; isJsonLD(x));</span>
+    }
+
+    public static Model jsonLDToRdf(String json) throws IOException {
+<span class="nc" id="L95">        return ModelHelper.readModel(json, RDFFormat.JSONLD);</span>
+    }
+
+    public static JsonNode removeJSONLDInfo(JsonNode node) {
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if (node.isObject()) {</span>
+<span class="nc" id="L100">            ObjectNode rootObject = (ObjectNode) node;</span>
+<span class="nc" id="L101">            rootObject.remove(TYPE);</span>
+<span class="nc" id="L102">            rootObject.remove(ID);</span>
+<span class="nc" id="L103">            rootObject.remove(CONTEXT);</span>
+        }
+<span class="nc" id="L105">        node.elements().forEachRemaining(x -&gt; removeJSONLDInfo(x));</span>
+<span class="nc" id="L106">        return node;</span>
+    }
+
+<span class="nc" id="L109">    private JsonLDHelper() {</span>
+<span class="nc" id="L110">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

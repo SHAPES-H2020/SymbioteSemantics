@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Context.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SymbIoTeSemantics</a> &gt; <a href="index.source.html" class="el_package">eu.h2020.symbiote.jsonld</a> &gt; <span class="el_source">Context.java</span></div><h1>Context.java</h1><pre class="source lang-java linenums">package eu.h2020.symbiote.jsonld;
+
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import static eu.h2020.symbiote.jsonld.JsonLdProperties.VOCAB;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ *
+ * @author Michael Jacoby &lt;michael.jacoby@iosb.fraunhofer.de&gt;
+ */
+public class Context {
+
+    @JsonProperty(VOCAB)
+    private String vocab;
+    private Map&lt;String, String&gt; properties;
+
+<span class="nc" id="L21">    public Context() {</span>
+<span class="nc" id="L22">        this.properties = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L23">    }</span>
+
+    public Context(String base) {
+<span class="nc" id="L26">        this();</span>
+<span class="nc" id="L27">        this.vocab = base;</span>
+<span class="nc" id="L28">    }</span>
+
+    public String getVocab() {
+<span class="nc" id="L31">        return vocab;</span>
+    }
+
+    public void setVocab(String vocab) {
+<span class="nc" id="L35">        this.vocab = vocab;</span>
+<span class="nc" id="L36">    }</span>
+
+    @JsonAnyGetter
+    public Map&lt;String, String&gt; getProperties() {
+<span class="nc" id="L40">        return properties;</span>
+    }
+
+    @JsonAnySetter
+    public void addProperty(String key, String value) {
+<span class="nc" id="L45">        this.properties.put(key, value);</span>
+<span class="nc" id="L46">    }</span>
+
+    public void setProperties(Map&lt;String, String&gt; properties) {
+<span class="nc" id="L49">        this.properties = properties;</span>
+<span class="nc" id="L50">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

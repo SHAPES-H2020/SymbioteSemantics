@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ValuePropertyWriter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SymbIoTeSemantics</a> &gt; <a href="index.source.html" class="el_package">eu.h2020.symbiote.jsonld</a> &gt; <span class="el_source">ValuePropertyWriter.java</span></div><h1>ValuePropertyWriter.java</h1><pre class="source lang-java linenums">package eu.h2020.symbiote.jsonld;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.cfg.MapperConfig;
+import com.fasterxml.jackson.databind.introspect.AnnotatedClass;
+import com.fasterxml.jackson.databind.introspect.BeanPropertyDefinition;
+import com.fasterxml.jackson.databind.ser.VirtualBeanPropertyWriter;
+import com.fasterxml.jackson.databind.util.Annotations;
+
+/**
+ * {@link BeanPropertyWriter} that holds a fixed value
+ *
+ * @author Michael Jacoby &lt;michael.jacoby@iosb.fraunhofer.de&gt;
+ */
+public class ValuePropertyWriter extends VirtualBeanPropertyWriter {
+
+    protected final Object value;
+
+    protected ValuePropertyWriter(Object propertyValue, BeanPropertyDefinition propDef,
+            Annotations contextAnnotations, JavaType declaredType) {
+<span class="nc" id="L24">        this(propertyValue, propDef, contextAnnotations, declaredType, propDef.findInclusion());</span>
+<span class="nc" id="L25">    }</span>
+
+    protected ValuePropertyWriter(Object propertyValue, BeanPropertyDefinition propDef,
+            Annotations contextAnnotations, JavaType declaredType,
+            JsonInclude.Value inclusion) {
+<span class="nc" id="L30">        super(propDef, contextAnnotations, declaredType, null, null, null, inclusion, null);</span>
+<span class="nc" id="L31">        this.value = propertyValue;</span>
+<span class="nc" id="L32">    }</span>
+
+    public static ValuePropertyWriter construct(Object propertyValue,
+            BeanPropertyDefinition propDef,
+            Annotations contextAnnotations,
+            JavaType declaredType) {
+<span class="nc" id="L38">        return new ValuePropertyWriter(propertyValue, propDef, contextAnnotations, declaredType);</span>
+    }
+
+    @Override
+    public VirtualBeanPropertyWriter withConfig(MapperConfig&lt;?&gt; mc, AnnotatedClass ac, BeanPropertyDefinition bpd, JavaType jt) {
+<span class="nc" id="L43">        throw new IllegalStateException(&quot;Should not be called on this type&quot;);</span>
+    }
+
+    @Override
+    protected Object value(Object o, JsonGenerator jg, SerializerProvider sp) throws Exception {
+<span class="nc" id="L48">        return value;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

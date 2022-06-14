@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CIM.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SymbIoTeSemantics</a> &gt; <a href="index.source.html" class="el_package">eu.h2020.symbiote.semantics.ontology</a> &gt; <span class="el_source">CIM.java</span></div><h1>CIM.java</h1><pre class="source lang-java linenums">package eu.h2020.symbiote.semantics.ontology;
+import org.apache.jena.rdf.model.*;
+import org.apache.jena.ontology.*;
+
+import org.apache.commons.lang3.StringUtils;
+
+<span class="nc" id="L7">public class CIM {</span>
+    /** &lt;p&gt;The ontology model that holds the vocabulary terms&lt;/p&gt; */
+<span class="fc" id="L9">    private static final OntModel M_MODEL = ModelFactory.createOntologyModel( OntModelSpec.OWL_MEM, null );</span>
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a string&lt;/p&gt; */
+    public static final String NS = &quot;http://www.symbiote-h2020.eu/ontology/core#&quot;;
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a string&lt;/p&gt;
+     * @return namespace as String
+     * @see #NS */
+<span class="fc" id="L17">    public static String getURI() {return StringUtils.stripEnd(NS, &quot;#&quot;);}</span>
+    
+    /** &lt;p&gt;The namespace of the vocabulary as a resource&lt;/p&gt; */
+<span class="fc" id="L20">    public static final Resource NAMESPACE = M_MODEL.createResource( NS );</span>
+    
+    /** &lt;p&gt;The ontology's owl:versionInfo as a string&lt;/p&gt; */
+    public static final String VERSION_INFO = &quot;v2.3.0 2018/07/23 12:00:00&quot;;
+    
+<span class="fc" id="L25">    public static String getVersionURI() { return getURI() + &quot;/2.3.0&quot;; }</span>
+<span class="fc" id="L26">    public static final ObjectProperty actsOn = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#actsOn&quot; );</span>
+    
+<span class="fc" id="L28">    public static final ObjectProperty affects = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#affects&quot; );</span>
+    
+<span class="fc" id="L30">    public static final ObjectProperty basedOnClass = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#basedOnClass&quot; );</span>
+    
+<span class="fc" id="L32">    public static final ObjectProperty basedOnProperty = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#basedOnProperty&quot; );</span>
+    
+<span class="fc" id="L34">    public static final ObjectProperty excludeClass = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#excludeClass&quot; );</span>
+    
+<span class="fc" id="L36">    public static final ObjectProperty hasBaseDatatype = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#hasBaseDatatype&quot; );</span>
+    
+<span class="fc" id="L38">    public static final ObjectProperty hasCapability = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#hasCapability&quot; );</span>
+    
+<span class="fc" id="L40">    public static final ObjectProperty hasDatatype = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#hasDatatype&quot; );</span>
+    
+<span class="fc" id="L42">    public static final ObjectProperty hasEffect = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#hasEffect&quot; );</span>
+    
+<span class="fc" id="L44">    public static final ObjectProperty hasFeatureOfInterest = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#hasFeatureOfInterest&quot; );</span>
+    
+<span class="fc" id="L46">    public static final ObjectProperty hasObservation = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#hasObservation&quot; );</span>
+    
+<span class="fc" id="L48">    public static final ObjectProperty hasObservationValue = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#hasObservationValue&quot; );</span>
+    
+<span class="fc" id="L50">    public static final ObjectProperty hasObservedProperty = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#hasObservedProperty&quot; );</span>
+    
+<span class="fc" id="L52">    public static final ObjectProperty hasParameter = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#hasParameter&quot; );</span>
+    
+<span class="fc" id="L54">    public static final ObjectProperty hasProperty = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#hasProperty&quot; );</span>
+    
+<span class="fc" id="L56">    public static final ObjectProperty hasRestriction = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#hasRestriction&quot; );</span>
+    
+<span class="fc" id="L58">    public static final ObjectProperty hasResultType = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#hasResultType&quot; );</span>
+    
+<span class="fc" id="L60">    public static final ObjectProperty hasUnitOfMeasurement = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#hasUnitOfMeasurement&quot; );</span>
+    
+<span class="fc" id="L62">    public static final ObjectProperty includeClass = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#includeClass&quot; );</span>
+    
+<span class="fc" id="L64">    public static final ObjectProperty locatedAt = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#locatedAt&quot; );</span>
+    
+<span class="fc" id="L66">    public static final ObjectProperty madeFrom = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#madeFrom&quot; );</span>
+    
+<span class="fc" id="L68">    public static final ObjectProperty observedBy = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#observedBy&quot; );</span>
+    
+<span class="fc" id="L70">    public static final ObjectProperty observesProperty = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#observesProperty&quot; );</span>
+    
+<span class="fc" id="L72">    public static final ObjectProperty onlyInstancesOfClass = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#onlyInstancesOfClass&quot; );</span>
+    
+<span class="fc" id="L74">    public static final ObjectProperty providesService = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#providesService&quot; );</span>
+    
+<span class="fc" id="L76">    public static final ObjectProperty resultTime = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#resultTime&quot; );</span>
+    
+<span class="fc" id="L78">    public static final ObjectProperty samplingTime = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#samplingTime&quot; );</span>
+    
+<span class="fc" id="L80">    public static final ObjectProperty valueProperty = M_MODEL.createObjectProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#valueProperty&quot; );</span>
+    
+<span class="fc" id="L82">    public static final DatatypeProperty description = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#description&quot; );</span>
+    
+<span class="fc" id="L84">    public static final DatatypeProperty excludeNamespace = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#excludeNamespace&quot; );</span>
+    
+<span class="fc" id="L86">    public static final DatatypeProperty id = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#id&quot; );</span>
+    
+<span class="fc" id="L88">    public static final DatatypeProperty includeNamespace = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#includeNamespace&quot; );</span>
+    
+<span class="fc" id="L90">    public static final DatatypeProperty isArray = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#isArray&quot; );</span>
+    
+<span class="fc" id="L92">    public static final DatatypeProperty mandatory = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#mandatory&quot; );</span>
+    
+<span class="fc" id="L94">    public static final DatatypeProperty max = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#max&quot; );</span>
+    
+<span class="fc" id="L96">    public static final DatatypeProperty min = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#min&quot; );</span>
+    
+<span class="fc" id="L98">    public static final DatatypeProperty name = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#name&quot; );</span>
+    
+<span class="fc" id="L100">    public static final DatatypeProperty pattern = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#pattern&quot; );</span>
+    
+<span class="fc" id="L102">    public static final DatatypeProperty processImportsRecursive = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#processImportsRecursive&quot; );</span>
+    
+<span class="fc" id="L104">    public static final DatatypeProperty step = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#step&quot; );</span>
+    
+<span class="fc" id="L106">    public static final DatatypeProperty symbol = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#symbol&quot; );</span>
+    
+<span class="fc" id="L108">    public static final DatatypeProperty value = M_MODEL.createDatatypeProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#value&quot; );</span>
+    
+<span class="fc" id="L110">    public static final AnnotationProperty hasExposureInfo = M_MODEL.createAnnotationProperty( &quot;http://www.symbiote-h2020.eu/ontology/core#hasExposureInfo&quot; );</span>
+    
+<span class="fc" id="L112">    public static final OntClass Actuator = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#Actuator&quot; );</span>
+    
+<span class="fc" id="L114">    public static final OntClass Capability = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#Capability&quot; );</span>
+    
+<span class="fc" id="L116">    public static final OntClass ComplexDatatype = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#ComplexDatatype&quot; );</span>
+    
+<span class="fc" id="L118">    public static final OntClass ComplexProperty = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#ComplexProperty&quot; );</span>
+    
+<span class="fc" id="L120">    public static final OntClass DataProperty = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#DataProperty&quot; );</span>
+    
+<span class="fc" id="L122">    public static final OntClass Datatype = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#Datatype&quot; );</span>
+    
+<span class="fc" id="L124">    public static final OntClass Device = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#Device&quot; );</span>
+    
+<span class="fc" id="L126">    public static final OntClass Effect = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#Effect&quot; );</span>
+    
+<span class="fc" id="L128">    public static final OntClass EnumRestriction = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#EnumRestriction&quot; );</span>
+    
+<span class="fc" id="L130">    public static final OntClass ExposureInfo = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#ExposureInfo&quot; );</span>
+    
+<span class="fc" id="L132">    public static final OntClass FeatureOfInterest = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#FeatureOfInterest&quot; );</span>
+    
+<span class="fc" id="L134">    public static final OntClass InstanceOfRestriction = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#InstanceOfRestriction&quot; );</span>
+    
+<span class="fc" id="L136">    public static final OntClass LengthRestriction = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#LengthRestriction&quot; );</span>
+    
+<span class="fc" id="L138">    public static final OntClass Location = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#Location&quot; );</span>
+    
+<span class="fc" id="L140">    public static final OntClass MobileSensor = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#MobileSensor&quot; );</span>
+    
+<span class="fc" id="L142">    public static final OntClass Observation = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#Observation&quot; );</span>
+    
+<span class="fc" id="L144">    public static final OntClass ObservationValue = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#ObservationValue&quot; );</span>
+    
+<span class="fc" id="L146">    public static final OntClass Parameter = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#Parameter&quot; );</span>
+    
+<span class="fc" id="L148">    public static final OntClass PrimitiveDatatype = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#PrimitiveDatatype&quot; );</span>
+    
+<span class="fc" id="L150">    public static final OntClass PrimitiveProperty = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#PrimitiveProperty&quot; );</span>
+    
+<span class="fc" id="L152">    public static final OntClass Property = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#Property&quot; );</span>
+    
+<span class="fc" id="L154">    public static final OntClass RangeRestriction = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#RangeRestriction&quot; );</span>
+    
+<span class="fc" id="L156">    public static final OntClass RegExRestriction = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#RegExRestriction&quot; );</span>
+    
+<span class="fc" id="L158">    public static final OntClass Resource = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#Resource&quot; );</span>
+    
+<span class="fc" id="L160">    public static final OntClass Restriction = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#Restriction&quot; );</span>
+    
+<span class="fc" id="L162">    public static final OntClass Sensor = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#Sensor&quot; );</span>
+    
+<span class="fc" id="L164">    public static final OntClass Service = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#Service&quot; );</span>
+    
+<span class="fc" id="L166">    public static final OntClass StationarySensor = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#StationarySensor&quot; );</span>
+    
+<span class="fc" id="L168">    public static final OntClass StepRestriction = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#StepRestriction&quot; );</span>
+    
+<span class="fc" id="L170">    public static final OntClass SymbolicLocation = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#SymbolicLocation&quot; );</span>
+    
+<span class="fc" id="L172">    public static final OntClass UnitOfMeasurement = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#UnitOfMeasurement&quot; );</span>
+    
+<span class="fc" id="L174">    public static final OntClass WGS84Location = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#WGS84Location&quot; );</span>
+    
+<span class="fc" id="L176">    public static final OntClass WKTLocation = M_MODEL.createClass( &quot;http://www.symbiote-h2020.eu/ontology/core#WKTLocation&quot; );</span>
+    
+<span class="fc" id="L178">    public static final Individual base64Binary = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#base64Binary&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L180">    public static final Individual base64BinaryArray = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#base64BinaryArray&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L182">    public static final Individual boolean_ = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#boolean&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L184">    public static final Individual booleanArray = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#booleanArray&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L186">    public static final Individual byte_ = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#byte&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L188">    public static final Individual byteArray = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#byteArray&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L190">    public static final Individual dateTime = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#dateTime&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L192">    public static final Individual dateTimeArray = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#dateTimeArray&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L194">    public static final Individual dateTimeStamp = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#dateTimeStamp&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L196">    public static final Individual dateTimeStampArray = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#dateTimeStampArray&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L198">    public static final Individual decimal = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#decimal&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L200">    public static final Individual decimalArray = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#decimalArray&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L202">    public static final Individual double_ = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#double&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L204">    public static final Individual doubleArray = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#doubleArray&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L206">    public static final Individual float_ = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#float&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L208">    public static final Individual floatArray = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#floatArray&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L210">    public static final Individual hexBinary = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#hexBinary&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L212">    public static final Individual hexBinaryArray = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#hexBinaryArray&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L214">    public static final Individual int_ = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#int&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L216">    public static final Individual intArray = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#intArray&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L218">    public static final Individual langString = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#langString&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L220">    public static final Individual langStringArray = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#langStringArray&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L222">    public static final Individual long_ = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#long&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L224">    public static final Individual longArray = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#longArray&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L226">    public static final Individual short_ = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#short&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L228">    public static final Individual shortArray = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#shortArray&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L230">    public static final Individual string = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#string&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L232">    public static final Individual stringArray = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#stringArray&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L234">    public static final Individual unsignedByte = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#unsignedByte&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L236">    public static final Individual unsignedByteArray = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#unsignedByteArray&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L238">    public static final Individual unsignedInt = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#unsignedInt&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L240">    public static final Individual unsignedIntArray = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#unsignedIntArray&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L242">    public static final Individual unsignedLong = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#unsignedLong&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L244">    public static final Individual unsignedLongArray = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#unsignedLongArray&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L246">    public static final Individual unsignedShort = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#unsignedShort&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+<span class="fc" id="L248">    public static final Individual unsignedShortArray = M_MODEL.createIndividual( &quot;http://www.symbiote-h2020.eu/ontology/core#unsignedShortArray&quot;, M_MODEL.createClass( &quot;http://www.w3.org/2002/07/owl#NamedIndividual&quot; ) );</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
